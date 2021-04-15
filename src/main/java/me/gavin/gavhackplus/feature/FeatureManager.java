@@ -10,6 +10,7 @@ import me.gavin.gavhackplus.events.KeyEvent;
 import me.gavin.gavhackplus.feature.features.*;
 import me.gavin.gavhackplus.util.FontUtil;
 
+
 public class FeatureManager {
 
 	public FeatureManager() {
@@ -37,6 +38,7 @@ public class FeatureManager {
 
 		// world
 		add(new NoRain());
+		add(new Nuker());
 
 		// misc
 		add(new HUD());
