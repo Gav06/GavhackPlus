@@ -25,15 +25,12 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.network.play.client.CPacketUseEntity;
-=======
 import net.minecraft.network.play.client.CPacketPlayer;
->>>>>>> adba50685dfffc4eebf9ea345bdf4e01745703eb
 import net.minecraft.util.EnumHand;
 
 public class KillAura extends Feature {
 	
 	private NumberSetting attackRange = new NumberSetting("AttackRange", this, 3.5f, 0.1f, 6.0f, 0.1f);
-<<<<<<< HEAD
 	private BooleanSetting rotate = new BooleanSetting("Rotations", this, true);
 	private BooleanSetting autoSwitch = new BooleanSetting("SwitchToSword", this, false);
 
@@ -94,82 +91,4 @@ public class KillAura extends Feature {
 			return true;
 		} else return entity instanceof EntityAnimal && animals.getValue();
 	}
-
-	/*
-	@EventTarget
-	public void onTick(TickEvent event) {
-		int variability = (int)(Math.random() * apsRandomness.getValue());
-		if (Math.random() > 0.5)
-			variability *= -1;
-		
-		// list sorted by entity distance to player
-		List<Entity> list = mc.world.loadedEntityList
-				.stream()
-				.sorted(Comparator.comparing(e -> mc.player.getDistance(e)))
-				.collect(Collectors.toList());
-		
-		for (Entity e : list) {
-			if (e instanceof EntityLivingBase) {
-				// self check
-				if (e.equals(mc.player))
-					continue;
-				
-				// distance check
-				if (e.getDistance(mc.player) > attackRange.getValue())
-					continue;
-				
-				// attack check
-				if (!shouldAttack((EntityLivingBase)e))
-					continue;
-				
-				// antibot check
-				if (AntiBot.filterAura.getValue() && Gavhack.featureManager.isFeatureEnabled(AntiBot.class)) {
-					if (e.ticksExisted < AntiBot.ticks.getValue())
-						continue;
-				}
-				
-				long var1 = (long)(aps.getValue() + variability);
-				if (var1 <= 1)
-					var1 = 1L;
-				
-				// rotations
-				if (!rotationMode.getMode().equals("None")) {
-					double[] rotations = Util.calculateLookAt(e.posX, e.posY + (e.height / 2), e.posZ, mc.player);
-					if (rotationMode.getMode().equals("Force")) {
-						mc.player.rotationPitch = (float) rotations[1];
-						mc.player.rotationYaw = (float) rotations[0];
-					} else {
-						mc.player.connection.sendPacket(new CPacketPlayer.Rotation((float)rotations[0], (float)rotations[1], false));
-					}
-				}
-
-				// switching to diamond sword
-				if (autoSwitch.getValue())
-					InventoryUtil.switchToHotbarItem(Items.DIAMOND_SWORD);
-				
-				// attacking entity + cooldown check
-				if (attackType.getMode().equals("Cooldown")) {
-					if (mc.player.getCooledAttackStrength(0.0f) >= 1.0f)
-						attack(e);
-				} else {
-					if (timer.hasTimeElapsed(1000L / var1, true))
-						attack(e);
-				}
-			}
-		}
-	}
-	
-	private boolean shouldAttack(EntityLivingBase e) {
-		if (e.getHealth() > 0 && !e.isDead) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private void attack(Entity e) {
-		mc.getConnection().sendPacket(new CPacketUseEntity(e));
-		mc.player.swingArm(EnumHand.MAIN_HAND);
-		mc.player.resetCooldown();
-	}*/
 }
