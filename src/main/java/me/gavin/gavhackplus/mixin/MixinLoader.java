@@ -1,4 +1,4 @@
-package me.gavin.gavhackplus;
+package me.gavin.gavhackplus.mixin;
 
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
