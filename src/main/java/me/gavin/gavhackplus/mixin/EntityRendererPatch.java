@@ -21,7 +21,6 @@ public class EntityRendererPatch {
     @Inject(method = "setupFog", at = @At("HEAD"), cancellable = true)
     public void setupFogPatch(int startCoords, float partialTicks, CallbackInfo ci) {
         if (Gavhack.featureManager.isFeatureEnabled(AntiFog.class)) {
-            System.out.println("cancelling fog setup");
             ci.cancel();
         }
     }
