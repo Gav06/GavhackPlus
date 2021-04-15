@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.gavin.gavhackplus.mixin",
+  "refmap": "refmap.gavhackplus.json",
+  "mixins": [
+    "EntityRendererPatch",
+    "ItemRendererPatch",
+    "MinecraftPatch",
+    "NetworkManagerPatch",
+    "WorldPatch",
+    "accessor.ICPacketUseEntity",
+    "accessor.IMinecraft",
+    "accessor.IRenderManager"
+  ]
+}
