@@ -1,6 +1,6 @@
 package me.gavin.gavhackplus.gui.click;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.features.ClickGUI;
 import org.lwjgl.input.Keyboard;
 

@@ -1,7 +1,7 @@
 package me.gavin.gavhackplus.mixin;
 
 import com.darkmagician6.eventapi.EventManager;
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.RenderHandEvent;
 import me.gavin.gavhackplus.feature.features.ItemViewmodel;
 import net.minecraft.client.renderer.ItemRenderer;

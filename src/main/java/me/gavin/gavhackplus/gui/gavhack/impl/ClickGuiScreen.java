@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.features.ClickGUI;
 import me.gavin.gavhackplus.feature.features.ColorMod;

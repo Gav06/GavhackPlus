@@ -1,6 +1,6 @@
 package me.gavin.gavhackplus.feature.features;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;

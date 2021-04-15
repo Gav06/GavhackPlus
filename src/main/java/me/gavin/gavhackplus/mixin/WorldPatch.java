@@ -1,6 +1,6 @@
 package me.gavin.gavhackplus.mixin;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.features.NoRain;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;

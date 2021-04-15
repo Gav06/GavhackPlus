@@ -91,7 +91,7 @@ reobf {
 shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
-        //include(depdenency('org.yaml:snakeyaml'))
+        include(dependency('org.yaml:snakeyaml'))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'

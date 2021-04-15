@@ -1,6 +1,6 @@
 package me.gavin.gavhackplus.mixin;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.features.AntiFog;
 import net.minecraft.client.renderer.EntityRenderer;
 import org.spongepowered.asm.mixin.Mixin;

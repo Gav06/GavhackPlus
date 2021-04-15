@@ -1,4 +1,4 @@
-package me.gavin.gavhackplus;
+package me.gavin.gavhackplus.client;
 
 import me.gavin.gavhackplus.feature.FeatureManager;
 import me.gavin.gavhackplus.gui.gavhack.impl.ClickGuiScreen;

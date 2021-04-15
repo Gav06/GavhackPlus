@@ -1,6 +1,6 @@
 package me.gavin.gavhackplus.util;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 

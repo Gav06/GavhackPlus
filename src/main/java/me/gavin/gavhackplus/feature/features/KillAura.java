@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.darkmagician6.eventapi.EventTarget;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;

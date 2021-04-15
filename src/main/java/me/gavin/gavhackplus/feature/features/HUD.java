@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.darkmagician6.eventapi.EventTarget;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
-import me.gavin.gavhackplus.Gavhack;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.RenderEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
