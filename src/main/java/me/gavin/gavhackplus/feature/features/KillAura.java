@@ -19,16 +19,21 @@ import me.gavin.gavhackplus.util.TimerUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+<<<<<<< HEAD
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.network.play.client.CPacketUseEntity;
+=======
+import net.minecraft.network.play.client.CPacketPlayer;
+>>>>>>> adba50685dfffc4eebf9ea345bdf4e01745703eb
 import net.minecraft.util.EnumHand;
 
 public class KillAura extends Feature {
 	
 	private NumberSetting attackRange = new NumberSetting("AttackRange", this, 3.5f, 0.1f, 6.0f, 0.1f);
+<<<<<<< HEAD
 	private BooleanSetting rotate = new BooleanSetting("Rotations", this, true);
 	private BooleanSetting autoSwitch = new BooleanSetting("SwitchToSword", this, false);
 
@@ -128,10 +133,14 @@ public class KillAura extends Feature {
 					var1 = 1L;
 				
 				// rotations
-				if (rotate.getValue()) {
+				if (!rotationMode.getMode().equals("None")) {
 					double[] rotations = Util.calculateLookAt(e.posX, e.posY + (e.height / 2), e.posZ, mc.player);
-					mc.player.rotationPitch = (float) rotations[1];
-					mc.player.rotationYaw = (float) rotations[0];
+					if (rotationMode.getMode().equals("Force")) {
+						mc.player.rotationPitch = (float) rotations[1];
+						mc.player.rotationYaw = (float) rotations[0];
+					} else {
+						mc.player.connection.sendPacket(new CPacketPlayer.Rotation((float)rotations[0], (float)rotations[1], false));
+					}
 				}
 
 				// switching to diamond sword
