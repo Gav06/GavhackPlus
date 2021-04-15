@@ -19,7 +19,6 @@ import me.gavin.gavhackplus.util.TimerUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-<<<<<<< HEAD
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
