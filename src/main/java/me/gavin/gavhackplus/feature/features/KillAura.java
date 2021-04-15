@@ -17,6 +17,7 @@ import me.gavin.gavhackplus.util.TimerUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
 
 public class KillAura extends Feature {
@@ -25,12 +26,12 @@ public class KillAura extends Feature {
 	private ModeSetting attackType = new ModeSetting("AttackMode", this, "Cooldown", "Cooldown", "CPS");
 	private NumberSetting aps = new NumberSetting("CPS", this, 8.0f, 1.0f, 20.0f, 1.0f);
 	private NumberSetting apsRandomness = new NumberSetting("Variability", this, 2.0f, 0.0f, 5.0f, 1.0f);
-	private BooleanSetting rotate = new BooleanSetting("Rotations", this, true);
+	private ModeSetting rotationMode = new ModeSetting("Rotations", this, "Packet", "Packet", "Force", "None");
 	
 	
 	public KillAura() {
 		super("KillAura", "Attacks stuff for you", Category.Combat);
-		addSettings(attackRange, attackType, aps , apsRandomness, rotate);
+		addSettings(attackRange, attackType, aps , apsRandomness, rotationMode);
 	}
 	
 	TimerUtil timer = new TimerUtil();
@@ -72,10 +73,14 @@ public class KillAura extends Feature {
 					var1 = 1L;
 				
 				// rotations
-				if (rotate.getValue()) {
+				if (!rotationMode.getMode().equals("None")) {
 					double[] rotations = Util.calculateLookAt(e.posX, e.posY + (e.height / 2), e.posZ, mc.player);
-					mc.player.rotationPitch = (float) rotations[1];
-					mc.player.rotationYaw = (float) rotations[0];
+					if (rotationMode.getMode().equals("Force")) {
+						mc.player.rotationPitch = (float) rotations[1];
+						mc.player.rotationYaw = (float) rotations[0];
+					} else {
+						mc.player.connection.sendPacket(new CPacketPlayer.Rotation((float)rotations[0], (float)rotations[1], false));
+					}
 				}
 				
 				// attacking entity + cooldown check
