@@ -11,6 +11,7 @@ buildscript {
         }
     }
     dependencies {
+
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
@@ -19,6 +20,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'groovy'
 
 
 version = mod_version
@@ -55,6 +57,7 @@ dependencies {
         exclude module: 'commons-io'
     }
     compile 'org.yaml:snakeyaml:1.8'
+    compile 'org.codehaus.groovy:groovy-all:2.4.5'
 }
 
 processResources {
