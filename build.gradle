@@ -22,7 +22,6 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'groovy'
 
-
 version = mod_version
 group = mod_artifact
 archivesBaseName = mod_id

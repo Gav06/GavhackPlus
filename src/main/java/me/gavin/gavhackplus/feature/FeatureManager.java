@@ -29,6 +29,7 @@ public class FeatureManager {
 
 		// movement
 		add(new Sprint());
+		add(new Jesus());
 
 		// render
 		add(new Fullbright());
