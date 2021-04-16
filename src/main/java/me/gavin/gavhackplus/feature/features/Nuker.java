@@ -13,7 +13,9 @@ import net.minecraft.network.play.client.CPacketPlayerDigging;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-
+/*
+@author sn01 & gav
+ */
 public class Nuker extends Feature {
     NumberSetting rad = new NumberSetting("Radius", this, 4.0f, 0.0f, 6.0f, 1.0f);
     ModeSetting breakMode = new ModeSetting("BreakMode", this, "Packet", "Packet", "Creative");
@@ -22,7 +24,7 @@ public class Nuker extends Feature {
         super("Nuker", "Automatically mines blocks around you", Category.World);
         addSettings(rad, breakMode);
     }
-
+//@Gav06 packet works at the same speed as creative
     @EventTarget
     public void onTick(TickEvent e) {
         int dist = (int) rad.getValue();
