@@ -1,31 +1,23 @@
 package me.gavin.gavhackplus.feature.features;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.darkmagician6.eventapi.EventTarget;
-
-import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
-import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
-import me.gavin.gavhackplus.util.InventoryUtil;
-import me.gavin.gavhackplus.util.TimerUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumHand;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class KillAura extends Feature {
 	
@@ -47,7 +39,6 @@ public class KillAura extends Feature {
 				monsters,
 				animals);
 	}
-
 
 	// TODO re-add CPS to kill aura instead of just normal cooldown timer
 
