@@ -36,10 +36,11 @@ public class FeatureManager {
 		add(new ESP());
 		add(new AntiFog());
 		add(new ItemViewmodel());
-
+		
 		// world
 		add(new NoRain());
 		add(new Nuker());
+		add(new Freecam());
 
 		// misc
 		add(new HUD());

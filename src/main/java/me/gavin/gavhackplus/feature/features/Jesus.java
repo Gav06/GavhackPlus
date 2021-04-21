@@ -30,9 +30,10 @@ public class Jesus extends Feature {
 
     @EventTarget
     public void onTick(TickEvent event) {
-        if (mc.player.isInWater() && !mc.player.isSneaking()) {
-            mc.player.motionY = 0.2;
+        if ((mc.player.isInWater() || mc.player.isInLava()) && !mc.player.isSneaking()) {
 
+            float add = mc.player.isInLava() ? 0.3f : 0.0f;
+            mc.player.motionY = 0.20 + add;
             // entity jesus :O
             if (mc.player.getRidingEntity() != null && !(mc.player.getRidingEntity() instanceof EntityBoat)) {
                 mc.player.getRidingEntity().motionY = 0.3;

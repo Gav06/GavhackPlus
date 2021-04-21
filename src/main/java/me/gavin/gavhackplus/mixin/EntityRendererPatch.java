@@ -2,6 +2,7 @@ package me.gavin.gavhackplus.mixin;
 
 import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.features.AntiFog;
+import me.gavin.gavhackplus.feature.features.CameraClip;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -30,4 +31,5 @@ public class EntityRendererPatch {
         if (Gavhack.featureManager.isFeatureEnabled(AntiFog.class)) return Blocks.AIR.getDefaultState();
         return ActiveRenderInfo.getBlockStateAtEntityViewpoint(worldIn, entityIn, p_186703_2_);
     }
+
 }
