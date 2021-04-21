@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         maven {
             name = 'forge'
-            url = 'https://files.minecraftforge.net/maven'
+            url = 'https://maven.minecraftforge.net/'
         }
         maven {
             name = 'SpongePowered'
@@ -11,13 +11,12 @@ buildscript {
         }
     }
     dependencies {
-
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -32,10 +31,19 @@ compileJava {
 }
 
 minecraft {
-    version = mc_version + "-" + forge_version
-    runDir = "run"
-    mappings = mcp_mappings
-    coreMod = mixin_loader
+    mappings channel: 'stable', version: '39-1.12'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'fml.coreMods.load', mixin_loader
+            property 'mixin.env.disableRefMap', 'true'
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
@@ -48,6 +56,8 @@ repositories {
 }
 
 dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+
     compile('org.spongepowered:mixin:0.7.4-SNAPSHOT') {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
@@ -61,14 +71,13 @@ dependencies {
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.version
     }
         
     // copy everything else except the mcmod.info
@@ -78,16 +87,18 @@ processResources {
 }
 
 mixin {
-    defaultObfuscationEnv searge
+    defaultObfuscationEnv 'searge'
     add sourceSets.main, mixin_refmap
 }
 
+/*
 reobf {
     shadowJar {
         mappingType = 'SEARGE'
         classpath = sourceSets.main.compileClasspath
     }
 }
+*/
 
 shadowJar {
     dependencies {
@@ -113,4 +124,3 @@ jar {
 }
 
 build.dependsOn(shadowJar)
-jar.finalizedBy('reobfJar')
