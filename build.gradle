@@ -20,7 +20,6 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'groovy'
 
 version = mod_version
 group = mod_artifact

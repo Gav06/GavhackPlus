@@ -12,9 +12,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 
-@Mod(name = "Gavhack+", modid = "gavhackplus", version = "0.2a")
+@Mod(name = "Gavhack+", modid = "gavhackplus", version = "0.3a")
 public class Gavhack {
-    public static final String nameVersion = "Gavhack+ 0.2a";
+    public static final String nameVersion = "Gavhack+ 0.3a";
 
     public static Logger logger;
     public static FeatureManager featureManager;
