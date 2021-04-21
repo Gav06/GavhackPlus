@@ -95,9 +95,10 @@ mixin {
     add sourceSets.main, mixin_refmap
 }
 
-// forgeGradle2 stuff
+
 reobf {
     shadowJar {
+        // forgeGradle3 monkey stuff
         //mappings = 'searge'
         classpath = sourceSets.main.compileClasspath
     }
@@ -111,7 +112,7 @@ shadowJar {
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'
-    classifier = 'release'
+    classifier = 'shadow'
 }
 
 jar {

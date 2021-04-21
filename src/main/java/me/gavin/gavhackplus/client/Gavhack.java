@@ -15,7 +15,7 @@ import java.awt.*;
 @Mod(name = "Gavhack+", modid = "gavhackplus", version = "0.3a")
 public class Gavhack {
     public static final String nameVersion = "Gavhack+ 0.3a";
-
+    
     public static Logger logger;
     public static FeatureManager featureManager;
     public static ParticleEngine particleEngine;
