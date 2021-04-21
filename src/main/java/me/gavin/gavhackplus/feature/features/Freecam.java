@@ -10,10 +10,10 @@ public class Freecam extends Feature {
         super("Freecam", "look around freely", Category.World);
     }
 
-    EntityOtherPlayerMP cameraEntity = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
-
+    EntityOtherPlayerMP cameraEntity;
     @Override
     public void onEnable() {
+        cameraEntity = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
         mc.world.addEntityToWorld(-99, cameraEntity);
         cameraEntity.copyLocationAndAnglesFrom(mc.player);
         mc.setRenderViewEntity(cameraEntity);

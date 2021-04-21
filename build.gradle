@@ -38,7 +38,6 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'fml.coreMods.load', mixin_loader
-            property 'mixin.env.disableRefMap', 'true'
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
@@ -64,8 +63,12 @@ dependencies {
         exclude module: 'gson'
         exclude module: 'commons-io'
     }
+
+    annotationProcessor('org.spongepowered:mixin:0.8.2:processor') {
+        exclude module: 'gson'
+    }
+
     compile 'org.yaml:snakeyaml:1.8'
-    compile 'org.codehaus.groovy:groovy-all:2.4.5'
 }
 
 processResources {
@@ -75,6 +78,7 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
+        include mixin_refmap
                 
         // replace version and mcversion
         expand 'version':project.version
@@ -91,14 +95,14 @@ mixin {
     add sourceSets.main, mixin_refmap
 }
 
-/*
+// forgeGradle2 stuff
 reobf {
     shadowJar {
-        mappingType = 'SEARGE'
+        //mappings = 'searge'
         classpath = sourceSets.main.compileClasspath
     }
 }
-*/
+
 
 shadowJar {
     dependencies {
