@@ -36,6 +36,7 @@ public class FeatureManager {
 		add(new ESP());
 		add(new AntiFog());
 		add(new ItemViewmodel());
+		add(new Tracers());
 		
 		// world
 		add(new NoRain());

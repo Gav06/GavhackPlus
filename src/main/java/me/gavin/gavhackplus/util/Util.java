@@ -65,4 +65,15 @@ public class Util {
 	public static void glColor(Color c) {
 		GlStateManager.color(c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, c.getAlpha() / 255f);
 	}
+
+	public static Color getDistanceColor(int distance) {
+		if (distance > 50) {
+			distance = 50;
+		}
+
+		int red = (int) (255 - (distance * 5.1));
+		int green = 255 - red;
+
+		return new Color(red, green, 0, 255);
+	}
 }

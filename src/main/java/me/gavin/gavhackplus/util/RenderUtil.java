@@ -105,4 +105,15 @@ public class RenderUtil {
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_LINE_SMOOTH);
     }
+
+    public static void drawLine3d(double x1, double y1, double z1, double x2, double y2, double z2, float lineWidth) {
+		glLineWidth(lineWidth);
+		glEnable(GL_LINE_SMOOTH);
+		glBegin(GL_LINES);
+		{
+			glVertex3d(x1, y1, z1);
+			glVertex3d(x2, y2, z2);
+		}
+		glEnd();
+	}
 }

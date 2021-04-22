@@ -1,27 +1,54 @@
 package me.gavin.gavhackplus.feature.features;
 
-import com.mojang.authlib.GameProfile;
+import com.darkmagician6.eventapi.EventTarget;
+import me.gavin.gavhackplus.events.MoveEvent;
+import me.gavin.gavhackplus.events.PacketEvent;
+import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
+import me.gavin.gavhackplus.mixin.accessor.IActiveRenderInfo;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.network.play.client.CPacketInput;
+import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.util.math.Vec3d;
+import org.lwjgl.input.Keyboard;
 
 public class Freecam extends Feature {
     public Freecam() {
         super("Freecam", "look around freely", Category.World);
     }
 
-    EntityOtherPlayerMP cameraEntity;
+    Vec3d originalPos;
+
     @Override
     public void onEnable() {
-        cameraEntity = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
-        mc.world.addEntityToWorld(-99, cameraEntity);
-        cameraEntity.copyLocationAndAnglesFrom(mc.player);
-        mc.setRenderViewEntity(cameraEntity);
+        originalPos = ActiveRenderInfo.getCameraPosition();
     }
 
     @Override
     public void onDisable() {
-        mc.setRenderViewEntity(mc.player);
-        mc.world.removeEntity(cameraEntity);
+        try {
+
+        } catch (Exception e) { e.printStackTrace(); }
     }
+
+    @EventTarget
+    public void onPacket(PacketEvent.Send event) {
+        if (event.getPacket() instanceof CPacketInput || event.getPacket() instanceof CPacketPlayer) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventTarget
+    public void onMove(MoveEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventTarget
+    public void onTick(TickEvent event) {
+        if (Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode())) {
+
+        }
+    }
+
 }

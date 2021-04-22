@@ -4,12 +4,14 @@
   "package": "me.gavin.gavhackplus.mixin",
   "refmap": "refmap.gavhackplus.json",
   "mixins": [
+    "EntityPlayerSPPatch",
     "EntityRendererPatch",
     "ItemRendererPatch",
     "MinecraftPatch",
     "NetworkManagerPatch",
     "StateImplementationPatch",
     "WorldPatch",
+    "accessor.IActiveRenderInfo",
     "accessor.ICPacketUseEntity",
     "accessor.IMinecraft",
     "accessor.IRenderManager"
