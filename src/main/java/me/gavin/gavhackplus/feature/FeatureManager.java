@@ -37,6 +37,7 @@ public class FeatureManager {
 		add(new AntiFog());
 		add(new ItemViewmodel());
 		add(new Tracers());
+		add(new Nametags());
 		
 		// world
 		add(new NoRain());
@@ -47,6 +48,7 @@ public class FeatureManager {
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
+		add(new Fakeplayer());
 		
 		
 		// sorting

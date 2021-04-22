@@ -34,6 +34,7 @@ compileJava {
 minecraft {
     mappings channel: 'stable', version: '39-1.12'
 
+
     runs {
         client {
             workingDirectory project.file('run')

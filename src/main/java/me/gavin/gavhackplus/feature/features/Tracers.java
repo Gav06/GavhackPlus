@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class Tracers extends Feature {
 
-    private NumberSetting lineWidth = new NumberSetting("LineWidth", this,1.5f, 1.0f, 10.0f, 0.25f);
+    private NumberSetting lineWidth = new NumberSetting("LineWidth", this,1.5f, 1.0f, 20.0f, 0.25f);
     private ModeSetting color = new ModeSetting("Color", this, "Distance", "Distance", "Default");
 
     public Tracers() {

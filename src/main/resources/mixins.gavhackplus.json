@@ -11,7 +11,6 @@
     "NetworkManagerPatch",
     "StateImplementationPatch",
     "WorldPatch",
-    "accessor.IActiveRenderInfo",
     "accessor.ICPacketUseEntity",
     "accessor.IMinecraft",
     "accessor.IRenderManager"

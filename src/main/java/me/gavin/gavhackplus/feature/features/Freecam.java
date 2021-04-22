@@ -6,7 +6,6 @@ import me.gavin.gavhackplus.events.PacketEvent;
 import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
-import me.gavin.gavhackplus.mixin.accessor.IActiveRenderInfo;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.network.play.client.CPacketInput;
 import net.minecraft.network.play.client.CPacketPlayer;
