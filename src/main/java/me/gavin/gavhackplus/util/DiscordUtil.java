@@ -67,16 +67,5 @@ public class DiscordUtil {
         rpc.Discord_Shutdown();
     }
 
-    private String getServer() {
-        if (mc.player != null) {
-            if (mc.getCurrentServerData() != null) return mc.getCurrentServerData().serverIP;
-
-            return "Singleplayer";
-        }
-
-        return "Main Menu";
-    }
-
     private DiscordUtil() {}
-    public synchronized void shutdown() { thread.interrupt(); }
 }
