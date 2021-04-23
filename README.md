@@ -1,2 +1,2 @@
 # GavhackPlus
-continuation (and rewrite) of gavhack
+Continuation (and rewrite) of gavhack.
