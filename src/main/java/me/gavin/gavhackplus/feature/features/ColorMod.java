@@ -32,7 +32,7 @@ public class ColorMod extends Feature {
 		if (!rainbow.getValue()) {
 			globalColor = new Color((int) red.getValue(), (int) green.getValue(), (int) blue.getValue());
 		} else {
-			globalColor = new Color(Util.getRGB(9.0f, 1.0f, 0.65f));
+			globalColor = new Color(Util.getRGB(9.0f, 1.0f, 0.8f));
 		}
 	}
 

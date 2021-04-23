@@ -5,5 +5,6 @@ public enum Category {
     Movement,
     Render,
     World,
-    Misc
+    Misc,
+    Chat
 }

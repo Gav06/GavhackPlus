@@ -9,6 +9,7 @@
     "ItemRendererPatch",
     "MinecraftPatch",
     "NetworkManagerPatch",
+    "RenderPlayerPatch",
     "StateImplementationPatch",
     "WorldPatch",
     "accessor.ICPacketUseEntity",

@@ -1,6 +1,8 @@
 package me.gavin.gavhackplus.mixin;
 
+import com.darkmagician6.eventapi.EventManager;
 import me.gavin.gavhackplus.client.Gavhack;
+import me.gavin.gavhackplus.events.Render2dPre;
 import me.gavin.gavhackplus.feature.features.AntiFog;
 import net.minecraft.client.renderer.EntityRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,5 +18,10 @@ public class EntityRendererPatch {
         if (Gavhack.featureManager.isFeatureEnabled(AntiFog.class)) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V"))
+    public void updateCameraAndRenderPatch(float partialTicks, long nanoTime, CallbackInfo ci) {
+        EventManager.call(new Render2dPre(partialTicks));
     }
 }

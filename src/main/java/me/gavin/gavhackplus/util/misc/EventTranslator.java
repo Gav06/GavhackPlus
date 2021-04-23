@@ -4,6 +4,7 @@ import com.darkmagician6.eventapi.EventManager;
 import me.gavin.gavhackplus.events.KeyEvent;
 import me.gavin.gavhackplus.events.RenderEvent;
 import me.gavin.gavhackplus.feature.features.ColorMod;
+import me.gavin.gavhackplus.util.ProjectionUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -47,6 +48,7 @@ public class EventTranslator {
 
     @SubscribeEvent
     public void onRender3d(RenderWorldLastEvent event) {
+        ProjectionUtils.updateMatrix();
         EventManager.call(new RenderEvent.World(event.getPartialTicks()));
     }
 }

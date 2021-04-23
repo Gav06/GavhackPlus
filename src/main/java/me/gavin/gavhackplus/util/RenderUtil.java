@@ -1,10 +1,13 @@
 package me.gavin.gavhackplus.util;
 
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.opengl.GL32;
+
+import java.awt.*;
 
 public class RenderUtil {
 
@@ -116,4 +119,13 @@ public class RenderUtil {
 		}
 		glEnd();
 	}
+
+	public static void drawBorderedRect(float x1, float y1, float x2, float y2, int innerColor, int bordercolor, float borderWidth) {
+		Gui.drawRect((int)x1, (int)y1, (int)x2, (int)y2, innerColor);
+		Util.glColor(new Color(bordercolor));
+		prepareGL2D();
+		lineBox2D(x1, y1, x2, y2, borderWidth);
+		releaseGL2D();
+	}
+
 }

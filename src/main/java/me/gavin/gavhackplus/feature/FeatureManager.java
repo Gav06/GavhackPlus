@@ -48,7 +48,10 @@ public class FeatureManager {
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
+		add(new OffhandCrash());
 		add(new Fakeplayer());
+
+		// chat
 		
 		
 		// sorting

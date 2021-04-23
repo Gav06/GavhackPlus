@@ -5,10 +5,12 @@ import me.gavin.gavhackplus.gui.gavhack.impl.ClickGuiScreen;
 import me.gavin.gavhackplus.gui.particle.ParticleEngine;
 import me.gavin.gavhackplus.util.font.hal.CFontRenderer;
 import me.gavin.gavhackplus.util.misc.EventTranslator;
+import me.gavin.gavhackplus.util.save.ConfigSystem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 
 import java.awt.*;
 
@@ -21,6 +23,8 @@ public class Gavhack {
     public static ParticleEngine particleEngine;
     public static CFontRenderer font;
     public static ClickGuiScreen clickGui;
+
+    private ConfigSystem configSystem;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
@@ -44,5 +48,28 @@ public class Gavhack {
 
         new EventTranslator();
         logger.info("Forge event translator initialized");
+
+        configSystem = new ConfigSystem();
+        logger.info("Config save/load system initialized");
+
+        Runtime.getRuntime().addShutdownHook(new ShutdownThread(configSystem));
+        logger.info("Added save shutdown hook");
+    }
+
+    private static class ShutdownThread extends Thread {
+
+        private final ConfigSystem configSystem;
+
+        public ShutdownThread(ConfigSystem configSystem) {
+            this.configSystem = configSystem;
+        }
+
+
+        @Override
+        public void run() {
+            System.out.println("*TRIED* to start to save shit");
+            configSystem.saveConfigs();
+            System.out.println("saved configs");
+        }
     }
 }
