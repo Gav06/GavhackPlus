@@ -50,6 +50,7 @@ public class FeatureManager {
 		add(new ClickGUI());
 		add(new OffhandCrash());
 		add(new Fakeplayer());
+		add(new RPC());
 
 		// chat
 		
