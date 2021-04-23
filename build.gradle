@@ -71,6 +71,7 @@ dependencies {
     }
 
     compile 'org.yaml:snakeyaml:1.8'
+    compile 'club.minnced:java-discord-rpc:2.0.1'
 }
 
 processResources {
@@ -113,6 +114,7 @@ shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
         include(dependency('org.yaml:snakeyaml'))
+        include(dependency('club.minnced:java-discord-rpc'))
     }
     exclude 'dummyThing'
     exclude 'LICENSE.txt'
