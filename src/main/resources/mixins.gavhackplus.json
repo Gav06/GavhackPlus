@@ -4,6 +4,7 @@
   "package": "me.gavin.gavhackplus.mixin",
   "refmap": "refmap.gavhackplus.json",
   "mixins": [
+    "EntityPatch",
     "EntityPlayerSPPatch",
     "EntityRendererPatch",
     "ItemRendererPatch",

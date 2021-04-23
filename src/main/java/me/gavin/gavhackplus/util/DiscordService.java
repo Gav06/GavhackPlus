@@ -7,8 +7,8 @@ import me.gavin.gavhackplus.client.Gavhack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 
-public class DiscordUtil {
-    public static final DiscordUtil INSTANCE = new DiscordUtil();
+public class DiscordService {
+    public static final DiscordService INSTANCE = new DiscordService();
 
     private final DiscordRPC rpc = DiscordRPC.INSTANCE;
 
@@ -45,7 +45,7 @@ public class DiscordUtil {
 
                 presence.largeImageKey = "brazil";
 
-                presence.details = "gavhack!!!!!!!!!!!!!!!!!!";
+                presence.details = "gavhack!!!!!!! (reap is cool)";
                 presence.state = mc.getSession().getUsername();
                 rpc.Discord_UpdatePresence(presence);
 
@@ -67,5 +67,5 @@ public class DiscordUtil {
         rpc.Discord_Shutdown();
     }
 
-    private DiscordUtil() {}
+    private DiscordService() {}
 }

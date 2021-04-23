@@ -30,6 +30,7 @@ public class FeatureManager {
 		// movement
 		add(new Sprint());
 		add(new Jesus());
+		add(new Velocity());
 
 		// render
 		add(new Fullbright());
@@ -51,6 +52,7 @@ public class FeatureManager {
 		add(new OffhandCrash());
 		add(new Fakeplayer());
 		add(new RPC());
+		add(new AutoPrank());
 
 		// chat
 		

@@ -1,10 +1,13 @@
 package me.gavin.gavhackplus.mixin;
 
 import com.darkmagician6.eventapi.EventManager;
+import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.MoveEvent;
+import me.gavin.gavhackplus.feature.features.Velocity;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.MoverType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

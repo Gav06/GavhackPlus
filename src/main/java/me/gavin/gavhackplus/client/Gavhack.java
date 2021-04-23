@@ -52,6 +52,8 @@ public class Gavhack {
         configSystem = new ConfigSystem();
         logger.info("Config save/load system initialized");
 
+        configSystem.loadConfigs();
+
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(configSystem));
         logger.info("Added save shutdown hook");
     }

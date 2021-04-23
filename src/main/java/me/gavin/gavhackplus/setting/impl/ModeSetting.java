@@ -16,6 +16,10 @@ public class ModeSetting extends Setting {
 		this.modes = Arrays.asList(modes);
 		this.settingIndex = this.modes.indexOf(defaultMode);
 	}
+
+	public void setMode(String mode) {
+		settingIndex = modes.indexOf(mode);
+	}
 	
 	public String getMode() {
 		return modes.get(settingIndex);

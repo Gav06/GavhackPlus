@@ -14,34 +14,35 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigSystem {
 
     private final File saveDir;
     private final File moduleSaveDir;
-    private BufferedWriter fileWriter;
-    private BufferedReader fileReader;
-    private PrintWriter printWriter;
 
     private Yaml yaml;
 
     public ConfigSystem() {
         this.saveDir = new File(Minecraft.getMinecraft().gameDir, "gavhackplus");
         this.moduleSaveDir = new File(saveDir, "features");
+        if (!saveDir.exists())
+            saveDir.mkdir();
+
+        if (!moduleSaveDir.exists())
+            moduleSaveDir.mkdir();
         this.yaml = new Yaml();
     }
 
     public void saveConfigs() {
         System.out.println("starting save");
         for (Feature feature : Gavhack.featureManager.getFeatures()) {
-            System.out.println(feature.getName());
             HashMap<String, Object> valueMap = new HashMap<>();
 
             valueMap.put("enabled", feature.isEnabled());
-
+            valueMap.put("toggleBind", feature.getKey());
 
             for (Setting s : feature.settings) {
-                System.out.println(s.getName());
                 if (s instanceof ModeSetting) {
                     valueMap.put(s.getName(), ((ModeSetting) s).getMode());
                 } else if (s instanceof KeybindSetting) {
@@ -54,20 +55,48 @@ public class ConfigSystem {
             }
 
             try {
-                System.out.println("trying to save");
                 writeMapToYamlFile(valueMap, new File(moduleSaveDir, feature.getName() + ".yaml"));
-            } catch (IOException e) { e.printStackTrace(); }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void loadConfigs() {
+        for (Feature feature : Gavhack.featureManager.getFeatures()) {
+            try {
+                InputStream istream = new FileInputStream(new File(moduleSaveDir, feature.getName() + ".yaml"));
+                Map<String, Object> detectedMap = (Map<String, Object>) yaml.load(istream);
 
+                if ((boolean) detectedMap.get("enabled")) {
+                    feature.toggle();
+                }
+
+                feature.setKey((int) detectedMap.get("toggleBind"));
+
+                for (Setting s : feature.settings) {
+                    if (s instanceof BooleanSetting) {
+                        ((BooleanSetting) s).setValue((boolean) detectedMap.get(s.getName()));
+                    } else if (s instanceof KeybindSetting) {
+                        ((KeybindSetting) s).setKey((int) detectedMap.get(s.getName()));
+                    } else if (s instanceof ModeSetting) {
+                        ((ModeSetting) s).setMode((String) detectedMap.get(s.getName()));
+                    } else if (s instanceof NumberSetting) {
+                        ((NumberSetting) s).setValueClamped(((Double) detectedMap.get(s.getName())).floatValue());
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void writeMapToYamlFile(HashMap<String, Object> hashMap, File file) throws IOException {
-        this.fileWriter = new BufferedWriter(new FileWriter(file));
-        this.printWriter = new PrintWriter(fileWriter);
-        yaml.dump(hashMap, printWriter);
-        System.out.println("dumped yaml");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        yaml.dump(hashMap, writer);
     }
 }

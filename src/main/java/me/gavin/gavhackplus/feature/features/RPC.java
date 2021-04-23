@@ -2,7 +2,7 @@ package me.gavin.gavhackplus.feature.features;
 
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
-import me.gavin.gavhackplus.util.DiscordUtil;
+import me.gavin.gavhackplus.util.DiscordService;
 
 public class RPC extends Feature {
     public RPC() {
@@ -11,11 +11,11 @@ public class RPC extends Feature {
 
     @Override
     protected void onEnable() {
-        DiscordUtil.INSTANCE.enable();
+        DiscordService.INSTANCE.enable();
     }
 
     @Override
     protected void onDisable() {
-        DiscordUtil.INSTANCE.disable();
+        DiscordService.INSTANCE.disable();
     }
 }
