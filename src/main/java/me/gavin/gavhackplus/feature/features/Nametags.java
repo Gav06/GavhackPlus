@@ -139,7 +139,10 @@ public class Nametags extends Feature {
         }
     }
 
-    // :smirk:
+    // method is from Gamesense nametags and tweaked a bit
+    //
+    // i was having issues getting the items to render with the effects properly,
+    // so i looked how someone else did it
     private void renderItem(ItemStack itemStack, int posX, int posY) {
         GlStateManager.enableTexture2D();
         GlStateManager.depthMask(true);
