@@ -16,7 +16,7 @@ public class Velocity extends Feature {
     private BooleanSetting explosions = new BooleanSetting("Explosions", this, true);
 
     public Velocity() {
-        super("Velocity", "stop various things from moving you", Category.Movement);
+        super("Velocity", "Stop various things from moving you", Category.Movement);
         waterPush = new BooleanSetting("PushedByWater", this, true);
         entityPush = new BooleanSetting("EntityPush", this, true);
         addSettings(explosions, waterPush, entityPush);
