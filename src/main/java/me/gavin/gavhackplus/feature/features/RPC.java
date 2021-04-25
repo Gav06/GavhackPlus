@@ -6,7 +6,7 @@ import me.gavin.gavhackplus.util.DiscordService;
 
 public class RPC extends Feature {
     public RPC() {
-        super("RPC", "rpigc", Category.Misc);
+        super("RPC", "Rpigc", Category.Misc);
     }
 
     @Override
