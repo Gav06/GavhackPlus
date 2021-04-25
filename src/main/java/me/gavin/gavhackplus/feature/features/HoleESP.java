@@ -36,7 +36,7 @@ public class HoleESP extends Feature {
     private NumberSetting obbyB = new NumberSetting("Obby B", this, 0f, 0f, 255f, 1f);
     private NumberSetting obbyA = new NumberSetting("Obby A", this, 127f, 0f, 255f, 1f);
 
-    private final ExecutorService service = Executors.newFixedThreadPool(3);
+    private final ExecutorService service = Executors.newFixedThreadPool(5);
 
     public HoleESP() {
         super("HoleESP", "Highlight safe spots for cpvp", Category.Render);

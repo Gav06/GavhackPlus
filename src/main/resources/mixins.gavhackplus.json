@@ -10,6 +10,7 @@
     "ItemRendererPatch",
     "MinecraftPatch",
     "NetworkManagerPatch",
+    "RenderManagerPatch",
     "RenderPlayerPatch",
     "StateImplementationPatch",
     "WorldPatch",
