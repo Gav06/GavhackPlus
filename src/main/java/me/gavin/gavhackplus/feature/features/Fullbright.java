@@ -10,7 +10,7 @@ import com.darkmagician6.eventapi.EventTarget;
 public class Fullbright extends Feature {
 
     public Fullbright() {
-        super("Fullbright", "Makes it bright", Category.Render, Keyboard.KEY_N);
+        super("Fullbright", "Makes it bright", Category.Render);
     }
 
     float prevBrightness;
