@@ -13,7 +13,7 @@ public class Sprint extends Feature {
 	private ModeSetting mode = new ModeSetting("Mode", this, "Legit", "Legit", "Rage");
 
 	public Sprint() {
-		super("Sprint", "sprints for you", Category.Movement);
+		super("Sprint", "Sprints for you", Category.Movement);
 		addSettings(mode);
 	}
 
