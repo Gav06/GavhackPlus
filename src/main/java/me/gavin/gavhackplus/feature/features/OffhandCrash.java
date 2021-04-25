@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 public class OffhandCrash extends Feature {
     NumberSetting speed = new NumberSetting("Speed", this, 500.0f, 0.0f, 1000.0f, 1.0f);
     public OffhandCrash() {
-        super("OffhandCrash", "crash kids using snowballs in ur offhand", Category.World);
+        super("OffhandCrash", "Crash kids using snowballs in ur offhand", Category.World);
         addSettings(speed);
     }
     @EventTarget
