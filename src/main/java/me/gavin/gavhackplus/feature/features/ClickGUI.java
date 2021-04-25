@@ -8,7 +8,8 @@ import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import org.lwjgl.input.Keyboard;
 
 public class ClickGUI extends Feature {
-	
+
+	public static BooleanSetting particles;
 	public static BooleanSetting showBinds;
 	public static BooleanSetting clampPanels;
 	public static ModeSetting background;
@@ -18,7 +19,8 @@ public class ClickGUI extends Feature {
 		showBinds = new BooleanSetting("Binds", this, false);
 		clampPanels = new BooleanSetting("ClampSides", this, true);
 		background = new ModeSetting("Backdrop", this, "Gradient", "Gradient", "Default", "Blur", "None");
-		addSettings(showBinds, clampPanels, background);
+		particles = new BooleanSetting("Particles", this, true);
+		addSettings(particles, showBinds, clampPanels, background);
 	}
 	
 	@Override

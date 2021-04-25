@@ -2,10 +2,12 @@ package me.gavin.gavhackplus.util;
 
 import java.awt.Color;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import me.gavin.gavhackplus.mixin.accessor.IRenderManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextComponentString;
 
 public class Util {
 
@@ -75,5 +77,9 @@ public class Util {
 		int green = 255 - red;
 
 		return new Color(red, green, 0, 255);
+	}
+
+	public static void sendMsg(String message) {
+		mc.player.sendMessage(new TextComponentString(ChatFormatting.RED + "[" + ChatFormatting.GRAY + "Gavhack+" + ChatFormatting.RED + "] " + ChatFormatting.RESET + message));
 	}
 }

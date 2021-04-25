@@ -48,16 +48,23 @@ public class Nametags extends Feature {
                     new Vec3d(mc.player.lastTickPosX, mc.player.lastTickPosY, mc.player.lastTickPosZ),
                     new Vec3d(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ));
             double nowDistance = getDistance(mc.player.getPositionVector(), player.getPositionVector());
-            double deltaScale = MathHelper.clampedLerp(lastDistance, nowDistance, event.getPartialTicks());
+            double lerp = MathHelper.clampedLerp(lastDistance, nowDistance, event.getPartialTicks());
+            if (lerp <= 3)
+                lerp = 3;
+            double deltaScale = lerp;
 
             deltaScale /= (200.0D / scale.getValue());
 
             double[] rpos = Util.getRenderPos();
             RenderUtil.prepareGL(0.1f);
 
+            // moving everything to the correct position
             GlStateManager.translate(deltaX - rpos[0], deltaY - rpos[1], deltaZ - rpos[2]);
+            // rotating so it is always facing the player
             GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
             GlStateManager.rotate(mc.getRenderManager().playerViewX, mc.gameSettings.thirdPersonView == 2 ? -1.0f : 1.0f, 0.0f, 0.0f);
+
+            // scaling properly
             GlStateManager.scale(-deltaScale, -deltaScale, -deltaScale);
 
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -109,12 +116,12 @@ public class Nametags extends Feature {
 
             if (this.items.getValue()) {
                 if (!player.inventory.getStackInSlot(player.inventory.currentItem).isEmpty()) {
-                    renderItem(player.inventory.getStackInSlot(player.inventory.currentItem), -(mc.fontRenderer.getStringWidth(str) / 2) - 20, -14);
+                    renderItem(player.inventory.getStackInSlot(player.inventory.currentItem), -48, y);
                 }
 
                 // offhand
                 if (!player.getHeldItemOffhand().isEmpty()) {
-                    renderItem(player.getHeldItemOffhand(), (mc.fontRenderer.getStringWidth(str) + 3) / 2, -14);
+                    renderItem(player.getHeldItemOffhand(), 35, y);
                 }
             }
 

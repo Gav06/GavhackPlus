@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.Sys;
 
 import java.awt.*;
 
@@ -56,6 +55,7 @@ public class Gavhack {
 
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(configSystem));
         logger.info("Added save shutdown hook");
+
     }
 
     private static class ShutdownThread extends Thread {
@@ -69,9 +69,8 @@ public class Gavhack {
 
         @Override
         public void run() {
-            System.out.println("*TRIED* to start to save shit");
+            Gavhack.logger.info("Saving configs");
             configSystem.saveConfigs();
-            System.out.println("saved configs");
         }
     }
 }

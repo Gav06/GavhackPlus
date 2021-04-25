@@ -13,6 +13,7 @@
     "RenderPlayerPatch",
     "StateImplementationPatch",
     "WorldPatch",
+    "accessor.ICPacketChatMessage",
     "accessor.ICPacketUseEntity",
     "accessor.IMinecraft",
     "accessor.IRenderManager"

@@ -35,7 +35,6 @@ public class ConfigSystem {
     }
 
     public void saveConfigs() {
-        System.out.println("starting save");
         for (Feature feature : Gavhack.featureManager.getFeatures()) {
             HashMap<String, Object> valueMap = new HashMap<>();
 

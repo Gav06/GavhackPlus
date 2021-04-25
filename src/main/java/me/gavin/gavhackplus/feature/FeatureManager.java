@@ -26,6 +26,7 @@ public class FeatureManager {
 		add(new AntiBot());
 		add(new KillAura());
 		add(new FastEXP());
+		add(new BowSpam());
 
 		// movement
 		add(new Sprint());
@@ -39,6 +40,8 @@ public class FeatureManager {
 		add(new ItemViewmodel());
 		add(new Tracers());
 		add(new Nametags());
+		add(new HoleESP());
+		add(new CameraClip());
 		
 		// world
 		add(new NoRain());
@@ -55,6 +58,9 @@ public class FeatureManager {
 		add(new AutoPrank());
 
 		// chat
+		add(new ChatSuffix());
+		add(new ChatTimestamps());
+		add(new PopCounter());
 		
 		
 		// sorting

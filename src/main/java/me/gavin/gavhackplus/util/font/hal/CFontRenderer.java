@@ -21,7 +21,10 @@ public class CFontRenderer extends CFont {
         super(font, antiAlias, fractionalMetrics);
         setupMinecraftColorcodes();
         setupBoldItalicIDs();
+
+        //new CFontInitializer();
     }
+
     String fontName = "Arial";
     int fontSize = 18;
     public String getFontName() {

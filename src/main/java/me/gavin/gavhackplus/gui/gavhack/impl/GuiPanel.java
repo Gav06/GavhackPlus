@@ -55,7 +55,7 @@ public class GuiPanel extends AbstractDragComponent {
     @Override
     public void renderComponent(int mouseX, int mouseY) {
         if (open) {
-            Gui.drawRect(x, y + button.height, x + width, y + height, 0xCF000000);
+            Gui.drawRect(x, y + button.height, x + width, y + height, 0x90000000);
             int yOffset = 16;
             for (ModuleButton mb : modButtons) {
                 mb.setPos(x, y + yOffset);

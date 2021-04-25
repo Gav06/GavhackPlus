@@ -23,13 +23,14 @@ public class HUD extends Feature {
 
 	private BooleanSetting watermark = new BooleanSetting("Watermark", this, true);
 	private BooleanSetting modList = new BooleanSetting("ModList", this, true);
+	private BooleanSetting welcomer = new BooleanSetting("Welcomer", this, false);
 	private BooleanSetting fancyModList = new BooleanSetting("FancyModList", this, true);
-	private ModeSetting modSort = new ModeSetting("Sort", this, "ABC", "ABC", "Length");
-	private BooleanSetting rainbow = new BooleanSetting("Rainbow", this, false);
+	private ModeSetting modSort = new ModeSetting("Sort", this, "Length", "ABC", "Length");
+	private BooleanSetting rainbow = new BooleanSetting("Rainbow", this, true);
 
 	public HUD() {
 		super("HUD", "Display information on your screen", Category.Misc);
-		addSettings(watermark, modList, fancyModList, modSort, rainbow);
+		addSettings(watermark, welcomer, modList, fancyModList, modSort, rainbow);
 	}
 
 	@EventTarget
@@ -41,6 +42,24 @@ public class HUD extends Feature {
 				Util.drawRGBString(Gavhack.nameVersion, 2, 2, 4.0f, 1.0f, 0.75f, 70L);
 			} else {
 				FontUtil.drawStringWithShadow(Gavhack.nameVersion, 2, 2, ColorMod.globalColor.getRGB());
+			}
+		}
+
+		if (welcomer.getValue()) {
+			String name = mc.player.getName();
+
+			if (name.equals("Gav06") || name.equals("Mastercooker") || name.equals("GL_TEXTURE_2D"))
+				name = "Gavin";
+
+			String str = "Hello " + name + ", welcome to Gavhack+";
+
+			int x = (sr.getScaledWidth() / 2) - (mc.fontRenderer.getStringWidth(str) / 2);
+			int y = 30;
+
+			if (rainbow.getValue()) {
+				Util.drawRGBString(str, x, y, 4.0f, 1.0f, 0.75f, 70L);
+			} else {
+				mc.fontRenderer.drawStringWithShadow(str, x, y, ColorMod.globalColor.getRGB());
 			}
 		}
 
