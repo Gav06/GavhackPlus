@@ -9,7 +9,7 @@ import java.net.URI;
 public class AutoPrank extends Feature {
 
     public AutoPrank() {
-        super("AutoPrank", "we do a little bit of trolling", Category.Misc);
+        super("AutoPrank", "We do a little bit of trolling", Category.Misc);
     }
 
     @Override
