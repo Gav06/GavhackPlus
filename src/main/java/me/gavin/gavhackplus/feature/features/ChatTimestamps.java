@@ -17,7 +17,7 @@ import java.util.Date;
 public class ChatTimestamps extends Feature {
 
     public ChatTimestamps() {
-        super("ChatTimestamps", "add timestamps to chat", Category.Chat);
+        super("ChatTimestamps", "Add timestamps to chat", Category.Chat);
     }
 
     @Override
