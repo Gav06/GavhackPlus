@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class BowSpam extends Feature {
     public BowSpam() {
-        super("BowSpam", "spam with bow", Category.Combat);
+        super("BowSpam", "Spam with bow", Category.Combat);
     }
 
     @EventTarget
