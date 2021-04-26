@@ -26,6 +26,7 @@ public class Fakeplayer extends Feature {
 
     @Override
     public void onDisable() {
-        mc.world.removeEntity(fakePlayer);
+        if (fakePlayer != null)
+            mc.world.removeEntity(fakePlayer);
     }
 }

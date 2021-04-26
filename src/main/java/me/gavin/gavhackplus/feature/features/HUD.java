@@ -17,6 +17,7 @@ import me.gavin.gavhackplus.util.FontUtil;
 import me.gavin.gavhackplus.util.RenderUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 
 public class HUD extends Feature {
@@ -24,13 +25,14 @@ public class HUD extends Feature {
 	private BooleanSetting watermark = new BooleanSetting("Watermark", this, true);
 	private BooleanSetting modList = new BooleanSetting("ModList", this, true);
 	private BooleanSetting welcomer = new BooleanSetting("Welcomer", this, false);
+	private BooleanSetting coords = new BooleanSetting("Coordinates", this, true);
 	private BooleanSetting fancyModList = new BooleanSetting("FancyModList", this, true);
 	private ModeSetting modSort = new ModeSetting("Sort", this, "Length", "ABC", "Length");
 	private BooleanSetting rainbow = new BooleanSetting("Rainbow", this, true);
 
 	public HUD() {
 		super("HUD", "Display information on your screen", Category.Misc);
-		addSettings(watermark, welcomer, modList, fancyModList, modSort, rainbow);
+		addSettings(watermark, welcomer, modList, coords, fancyModList, modSort, rainbow);
 	}
 
 	@EventTarget
@@ -57,7 +59,7 @@ public class HUD extends Feature {
 			int y = 30;
 
 			if (rainbow.getValue()) {
-				Util.drawRGBString(str, x, y, 4.0f, 1.0f, 0.75f, 70L);
+				Util.drawRGBString(str, x, y, 5.0f, 1.0f, 0.75f, 30L);
 			} else {
 				mc.fontRenderer.drawStringWithShadow(str, x, y, ColorMod.globalColor.getRGB());
 			}
@@ -85,7 +87,7 @@ public class HUD extends Feature {
 				int color = ColorMod.globalColor.getRGB();
 
 				if (rainbow.getValue())
-					color = Util.getRGBWave(8.0f, 1.0f, 0.75f, (long) yOffset * 15L);
+					color = Util.getRGBWave(8.0f, 1.0f, 0.75f, (long) yOffset * 10L);
 
 				if (fancyModList.getValue()) {
 					// background rect
@@ -107,6 +109,28 @@ public class HUD extends Feature {
 				FontUtil.drawStringWithShadow(f.getName(), x, y,color);
 				float i_ = FontUtil.customFont ? 1.5f : 0;
 				yOffset += FontUtil.getHeight() + i_ + 1;
+			}
+		}
+
+		if (coords.getValue()) {
+			int yToAdd = 0;
+
+			if (mc.currentScreen instanceof GuiChat)
+				yToAdd -= 12;
+
+			int x = 2;
+			int y = sr.getScaledHeight() - mc.fontRenderer.FONT_HEIGHT - 2 + yToAdd;
+
+			int px = (int) mc.player.posX;
+			int py = (int) mc.player.posY;
+			int pz = (int) mc.player.posZ;
+
+			String str = ChatFormatting.GRAY + "XYZ " + ChatFormatting.RESET + px + ", " + py + ", " + pz;
+
+			if (rainbow.getValue()) {
+				Util.drawRGBString(ChatFormatting.stripFormatting(str), x, y, 6.0f, 1.0f,  0.75f, 60L);
+			} else {
+				mc.fontRenderer.drawStringWithShadow(str, x, y, -1);
 			}
 		}
 	}

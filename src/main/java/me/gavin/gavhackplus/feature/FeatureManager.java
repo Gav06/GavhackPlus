@@ -36,6 +36,7 @@ public class FeatureManager {
 		// render
 		add(new Fullbright());
 		//add(new ESP());
+		add(new Chams());
 		add(new AntiFog());
 		add(new ItemViewmodel());
 		add(new Tracers());

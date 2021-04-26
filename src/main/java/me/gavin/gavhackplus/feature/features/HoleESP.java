@@ -5,6 +5,7 @@ import me.gavin.gavhackplus.events.RenderEvent;
 import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
+import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.RenderUtil;
 import me.gavin.gavhackplus.util.Util;
@@ -26,6 +27,8 @@ public class HoleESP extends Feature {
 
     private NumberSetting height = new NumberSetting("Height", this, 1.0f, 0.01f, 1.0f, 0.01f);
 
+    private ModeSetting renderMode = new ModeSetting("RenderMode", this, "Filled", "Filled", "Outline", "Both");
+
     private NumberSetting bedrockR = new NumberSetting("Bedrock R", this, 0f, 0f, 255f, 1f);
     private NumberSetting bedrockG = new NumberSetting("Bedrock G", this, 255f, 0f, 255f, 1f);
     private NumberSetting bedrockB = new NumberSetting("Bedrock B", this, 0f, 0f, 255f, 1f);
@@ -40,7 +43,7 @@ public class HoleESP extends Feature {
 
     public HoleESP() {
         super("HoleESP", "Highlight safe spots for cpvp", Category.Render);
-        addSettings(range, height,
+        addSettings(range, height, renderMode,
                 bedrockR, bedrockG, bedrockB, bedrockA,
                 obbyR, obbyG, obbyB, obbyA);
     }
@@ -61,9 +64,14 @@ public class HoleESP extends Feature {
                 return;
 
             for (EspHole hole : holes) {
-                RenderUtil.prepareGL(1.0f);
                 BlockPos bpos = hole.getPos();
-                AxisAlignedBB box = new AxisAlignedBB(bpos.getX(), bpos.getY(), bpos.getZ(), bpos.getX() + 1, bpos.getY() + height.getValue(), bpos.getZ() + 1);
+
+                float bHeight = 0f;
+
+                if (height.getValue() > 0.01f)
+                    bHeight = height.getValue();
+
+                AxisAlignedBB box = new AxisAlignedBB(bpos.getX(), bpos.getY(), bpos.getZ(), bpos.getX() + 1, bpos.getY() + bHeight, bpos.getZ() + 1);
                 double[] rpos = Util.getRenderPos();
 
                 float r = 1f, g = 1f, b = 1f, a = 1f;
@@ -80,8 +88,18 @@ public class HoleESP extends Feature {
                     a = obbyA.getValue() / 255f;
                 }
 
-                RenderGlobal.renderFilledBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, a);
-                RenderUtil.releaseGL();
+                if (renderMode.getMode().equals("Filled") || renderMode.getMode().equals("Both")) {
+                    RenderUtil.prepareGL(1.0f);
+                    RenderGlobal.renderFilledBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, a);
+                    RenderUtil.releaseGL();
+                }
+
+                if (renderMode.getMode().equals("Outline") || renderMode.getMode().equals("Both")) {
+                    RenderUtil.prepareGL(1.0f);
+                    RenderGlobal.drawSelectionBoundingBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, 1.0f);
+                    RenderUtil.releaseGL();
+                }
+
             }
         }
     }

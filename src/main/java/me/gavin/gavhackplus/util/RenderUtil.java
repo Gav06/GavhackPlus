@@ -15,7 +15,6 @@ public class RenderUtil {
 		GlStateManager.pushMatrix();
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		GlStateManager.tryBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
-		GlStateManager.shadeModel(GL_SMOOTH);
 		GlStateManager.depthMask(false);
 		GlStateManager.enableBlend();
 		GlStateManager.disableDepth();
@@ -39,7 +38,6 @@ public class RenderUtil {
 		GlStateManager.disableBlend();
 		GlStateManager.depthMask(true);
 		GlStateManager.glLineWidth(1.0f);
-		GlStateManager.shadeModel(GL_FLAT);
 		glHint(GL_LINE_SMOOTH_HINT, GL_DONT_CARE);
 		GlStateManager.popMatrix();
 	}
