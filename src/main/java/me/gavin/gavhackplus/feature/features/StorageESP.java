@@ -15,7 +15,6 @@ public class StorageESP extends Feature {
     @EventTarget
     public void onRender(RenderEvent.World event) {
         for (TileEntity tileEntity : mc.world.loadedTileEntityList) {
-            
         }
     }
 }

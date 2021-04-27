@@ -26,6 +26,7 @@ public class FeatureManager {
 		add(new AntiBot());
 		add(new KillAura());
 		add(new FastEXP());
+		add(new AutoEnderCrystalAura());
 		add(new BowSpam());
 
 		// movement

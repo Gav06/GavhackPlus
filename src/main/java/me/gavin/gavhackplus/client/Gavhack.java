@@ -3,6 +3,7 @@ package me.gavin.gavhackplus.client;
 import me.gavin.gavhackplus.feature.FeatureManager;
 import me.gavin.gavhackplus.gui.gavhack.impl.ClickGuiScreen;
 import me.gavin.gavhackplus.gui.particle.ParticleEngine;
+import me.gavin.gavhackplus.util.TickTimer;
 import me.gavin.gavhackplus.util.font.hal.CFontRenderer;
 import me.gavin.gavhackplus.util.misc.EventTranslator;
 import me.gavin.gavhackplus.util.save.ConfigSystem;
@@ -22,8 +23,6 @@ public class Gavhack {
     public static ParticleEngine particleEngine;
     public static CFontRenderer font;
     public static ClickGuiScreen clickGui;
-
-    private ConfigSystem configSystem;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
@@ -48,7 +47,7 @@ public class Gavhack {
         new EventTranslator();
         logger.info("Forge event translator initialized");
 
-        configSystem = new ConfigSystem();
+        ConfigSystem configSystem = new ConfigSystem();
         logger.info("Config save/load system initialized");
 
         configSystem.loadConfigs();
