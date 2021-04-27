@@ -2,14 +2,12 @@ package me.gavin.gavhackplus.util.save;
 
 import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.Feature;
-import me.gavin.gavhackplus.feature.FeatureManager;
 import me.gavin.gavhackplus.setting.Setting;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.setting.impl.KeybindSetting;
 import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.Mod;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
@@ -21,7 +19,7 @@ public class ConfigSystem {
     private final File saveDir;
     private final File moduleSaveDir;
 
-    private Yaml yaml;
+    private final Yaml yaml;
 
     public ConfigSystem() {
         this.saveDir = new File(Minecraft.getMinecraft().gameDir, "gavhackplus");
