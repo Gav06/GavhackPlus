@@ -98,7 +98,7 @@ public class AutoEnderCrystalAura extends Feature {
                 if (e.equals(mc.player))
                     continue;
 
-                if (calculateDamage())
+                //if (calculateDamage())
             }
         }
     }
