@@ -64,52 +64,47 @@ public class HoleESP extends Feature {
 
     @EventTarget
     public void onRender3d(RenderEvent.World event) {
-        if (holes != null) {
-            if (holes.size() == 0)
-                return;
+        for (EspHole hole : holes) {
+            BlockPos bpos = hole.getPos();
 
-            for (EspHole hole : holes) {
-                BlockPos bpos = hole.getPos();
+            float bHeight = 0f;
 
-                float bHeight = 0f;
+            if (height.getValue() > 0.01f)
+                bHeight = -height.getValue();
 
-                if (height.getValue() > 0.01f)
-                    bHeight = -height.getValue();
+            AxisAlignedBB box = new AxisAlignedBB(bpos.getX(), bpos.getY(), bpos.getZ(), bpos.getX() + 1, bpos.getY() + 1, bpos.getZ() + 1);
 
-                AxisAlignedBB box = new AxisAlignedBB(bpos.getX(), bpos.getY(), bpos.getZ(), bpos.getX() + 1, bpos.getY() + 1, bpos.getZ() + 1);
+            if (ownHole.getValue() && box.intersects(mc.player.getEntityBoundingBox()))
+                continue;
 
-                if (ownHole.getValue() && box.intersects(mc.player.getEntityBoundingBox()))
-                    continue;
+            box = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY - 1 - bHeight, box.maxZ);
 
-                box = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY - 1 - bHeight, box.maxZ);
+            double[] rpos = Util.getRenderPos();
 
-                double[] rpos = Util.getRenderPos();
+            float r = 1f, g = 1f, b = 1f, a = 1f;
 
-                float r = 1f, g = 1f, b = 1f, a = 1f;
+            if (hole.getType() == HoleType.BEDROCK) {
+                r = bedrockR.getValue() / 255f;
+                g = bedrockG.getValue() / 255f;
+                b = bedrockB.getValue() / 255f;
+                a = bedrockA.getValue() / 255f;
+            } else if (hole.getType() == HoleType.OBBY) {
+                r = obbyR.getValue() / 255f;
+                g = obbyG.getValue() / 255f;
+                b = obbyB.getValue() / 255f;
+                a = obbyA.getValue() / 255f;
+            }
 
-                if (hole.getType() == HoleType.BEDROCK) {
-                    r = bedrockR.getValue() / 255f;
-                    g = bedrockG.getValue() / 255f;
-                    b = bedrockB.getValue() / 255f;
-                    a = bedrockA.getValue() / 255f;
-                } else if (hole.getType() == HoleType.OBBY) {
-                    r = obbyR.getValue() / 255f;
-                    g = obbyG.getValue() / 255f;
-                    b = obbyB.getValue() / 255f;
-                    a = obbyA.getValue() / 255f;
-                }
+            if (renderMode.getMode().equals("Filled") || renderMode.getMode().equals("Both")) {
+                RenderUtil.prepareGL(lineWidth.getValue());
+                RenderGlobal.renderFilledBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, a);
+                RenderUtil.releaseGL();
+            }
 
-                if (renderMode.getMode().equals("Filled") || renderMode.getMode().equals("Both")) {
-                    RenderUtil.prepareGL(lineWidth.getValue());
-                    RenderGlobal.renderFilledBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, a);
-                    RenderUtil.releaseGL();
-                }
-
-                if (renderMode.getMode().equals("Outline") || renderMode.getMode().equals("Both")) {
-                    RenderUtil.prepareGL(lineWidth.getValue());
-                    RenderGlobal.drawSelectionBoundingBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, 1.0f);
-                    RenderUtil.releaseGL();
-                }
+            if (renderMode.getMode().equals("Outline") || renderMode.getMode().equals("Both")) {
+                RenderUtil.prepareGL(lineWidth.getValue());
+                RenderGlobal.drawSelectionBoundingBox(box.offset(-rpos[0], -rpos[1], -rpos[2]), r, g, b, 1.0f);
+                RenderUtil.releaseGL();
             }
         }
     }
@@ -205,9 +200,6 @@ public class HoleESP extends Feature {
             return null;
         }
 
-        private boolean sameBlockPos(BlockPos bp1, BlockPos bp2) {
-            return bp1.getX() == bp2.getX() && bp1.getY() == bp2.getY() && bp1.getZ() == bp2.getZ();
-        }
     }
 
     private enum HoleType {
