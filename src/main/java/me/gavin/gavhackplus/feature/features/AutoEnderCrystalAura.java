@@ -42,8 +42,8 @@ public class AutoEnderCrystalAura extends Feature {
     private final NumberSetting placeDistance = new NumberSetting("PlaceRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
     private final NumberSetting minDmg = new NumberSetting("MinDmg", this, 4.0f, 0.1f, 10.0f, 0.1f);
     private final NumberSetting maxSelfDmg = new NumberSetting("MaxSelfDmg", this, 15.0f, 1.0f, 30.0f, 0.1f);
-    private final NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2.0f, 1.0f, 20.0f, 1.0f);
-    private final NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2.0f, 1.0f, 20.0f, 1.0f);
+    private final NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
+    private final NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
     private final BooleanSetting setDead = new BooleanSetting("SetDead", this, true);
     private final BooleanSetting fastPlace = new BooleanSetting("FastPlace", this, true);
 
