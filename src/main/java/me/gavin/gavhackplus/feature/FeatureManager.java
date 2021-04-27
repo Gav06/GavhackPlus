@@ -63,6 +63,8 @@ public class FeatureManager {
 		add(new ChatSuffix());
 		add(new ChatTimestamps());
 		add(new PopCounter());
+		add(new ToggleNotify());
+		add(new VisualRange());
 		
 		
 		// sorting

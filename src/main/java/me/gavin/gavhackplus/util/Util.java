@@ -80,6 +80,8 @@ public class Util {
 	}
 
 	public static void sendMsg(String message) {
+		if (mc.player == null)
+			return;
 		mc.player.sendMessage(new TextComponentString(ChatFormatting.RED + "[" + ChatFormatting.GRAY + "Gavhack+" + ChatFormatting.RED + "] " + ChatFormatting.RESET + message));
 	}
 }

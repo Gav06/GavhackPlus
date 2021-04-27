@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
+import me.gavin.gavhackplus.client.Gavhack;
+import me.gavin.gavhackplus.feature.features.ToggleNotify;
 import me.gavin.gavhackplus.setting.Setting;
+import me.gavin.gavhackplus.util.Util;
 import org.lwjgl.input.Keyboard;
 
 import com.darkmagician6.eventapi.EventManager;
@@ -49,12 +53,16 @@ public abstract class Feature {
 	}
 
 	public void enable() {
+		if (Gavhack.featureManager.isFeatureEnabled(ToggleNotify.class) && !name.equals("ClickGUI"))
+			Util.sendMsg(ChatFormatting.GREEN + name + ChatFormatting.RESET + " is now enabled");
 		enabled = true;
 		onEnable();
 		EventManager.register(this);
 	}
 
 	public void disable() {
+		if (Gavhack.featureManager.isFeatureEnabled(ToggleNotify.class) && !name.equals("ClickGUI"))
+			Util.sendMsg(ChatFormatting.RED + name + ChatFormatting.RESET + " is now disabled");
 		EventManager.unregister(this);
 		onDisable();
 		enabled = false;

@@ -210,6 +210,8 @@ public class AutoEnderCrystalAura extends Feature {
         return posList;
     }
 
+    // credit to srgantmoomoo and postman for these methods
+    // i was too lazy to write these 3 by myself
     public float getBlastReduction(EntityLivingBase entity, float damage, Explosion explosion) {
         if (entity instanceof EntityPlayer) {
             EntityPlayer ep = (EntityPlayer) entity;
