@@ -1,10 +1,13 @@
 package me.gavin.gavhackplus.feature.features;
 
+import com.darkmagician6.eventapi.EventTarget;
+
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.util.MessageUtil;
+import me.gavin.gavhackplus.events.TickEvent;
 import net.minecraft.init.MobEffects;
 
 public class PotionAlert extends Feature {
@@ -18,7 +21,7 @@ public class PotionAlert extends Feature {
     public BooleanSetting weakness = new BooleanSetting("Weakness", this, true);
     public BooleanSetting slowness = new BooleanSetting("Slowness", this, true);
 
-    public void onUpdate() {
+    public void onTick(TickEvent event) {
         if(weakness.getValue()) {
             if(mc.player.isPotionActive(MobEffects.WEAKNESS) && !hasAnnounced) {
                 hasAnnounced = true;
