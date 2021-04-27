@@ -22,6 +22,8 @@ public abstract class Feature {
 	private final String name, description;
 	private final Category category;
 
+	private long enabledTime = -1L;
+
 	private int key;
 	public List<Setting> settings = new ArrayList<>();
 	private boolean enabled;
@@ -57,6 +59,7 @@ public abstract class Feature {
 			Util.sendMsg(ChatFormatting.GREEN + name + ChatFormatting.RESET + " is now enabled");
 		enabled = true;
 		onEnable();
+		enabledTime = System.currentTimeMillis();
 		EventManager.register(this);
 	}
 
@@ -96,5 +99,9 @@ public abstract class Feature {
 
 	public void setKey(int key) {
 		this.key = key;
+	}
+
+	public long getEnabledTime() {
+		return this.enabledTime;
 	}
 }

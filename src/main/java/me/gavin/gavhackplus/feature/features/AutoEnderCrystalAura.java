@@ -51,6 +51,9 @@ public class AutoEnderCrystalAura extends Feature {
     private final TickTimer breakTickTimer;
     private final TickTimer placeTickTimer;
 
+    private boolean isPlacing;
+    private boolean doneBreaking;
+
     public AutoEnderCrystalAura() {
         super("AutoEnderCrystalAura", ":)", Category.Combat);
 
@@ -90,7 +93,7 @@ public class AutoEnderCrystalAura extends Feature {
     }
 
     private void doBreakLogic() {
-
+        doneBreaking = false;
         targetCrystal = mc.world.loadedEntityList.stream()
                 .filter(e -> e.getDistance(mc.player) <= attackDistance.getValue())
                 .filter(e -> e instanceof EntityEnderCrystal)
@@ -98,17 +101,19 @@ public class AutoEnderCrystalAura extends Feature {
                 .filter(this::canAttackCrystal)
                 .findFirst().orElse(null);
 
-        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false)) {
+        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false) && !isPlacing) {
             mc.player.swingArm(EnumHand.MAIN_HAND);
             mc.player.connection.sendPacket(new CPacketUseEntity(targetCrystal));
             breakTickTimer.reset();
         }
+        doneBreaking = true;
     }
 
     EntityPlayer targetPlayer;
 
     private void doPlaceLogic() {
         // finding target based on highest damage
+        isPlacing = true;
         List<BlockPos> crystalBlocks =
                 getBlocksAroundPlayer(placeDistance.getValue())
                         .stream()
@@ -150,13 +155,13 @@ public class AutoEnderCrystalAura extends Feature {
         if (crystalPosition != null) {
             assert crystalPosition != null;
             if (placeTickTimer.hasTicksPassed((int) placeDelay.getValue(), false)) {
+
                 mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(crystalPosition, EnumFacing.UP, EnumHand.MAIN_HAND, 0f, 0f, 0f));
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 placeTickTimer.reset();
-
             }
         }
-
+        isPlacing = false;
     }
 
     private boolean canPlaceCrystal(BlockPos pos) {

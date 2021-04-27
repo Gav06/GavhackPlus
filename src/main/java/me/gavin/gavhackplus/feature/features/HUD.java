@@ -84,6 +84,7 @@ public class HUD extends Feature {
 				float x = sr.getScaledWidth() - FontUtil.getStringWidth(str) - 1;
 				float y = 1 + yOffset;
 
+
 				int color = ColorMod.globalColor.getRGB();
 
 				if (rainbow.getValue())

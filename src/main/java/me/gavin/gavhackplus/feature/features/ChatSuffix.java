@@ -23,8 +23,14 @@ public class ChatSuffix extends Feature {
         if (event.getPacket() instanceof CPacketChatMessage) {
             String suffix = " | gavhack+";
             if (unicode.getValue())
-                suffix = StringEscapeUtils.unescapeCsv(" \uff5c \u24d6\u24d0\u24e5\u24d7\u24d0\u24d2\u24da+");
-            ((ICPacketChatMessage)event.getPacket()).setMessageText(((CPacketChatMessage) event.getPacket()).getMessage() + suffix);
+                suffix = StringEscapeUtils.unescapeCsv(" \uff5c \u01e4\u0394\u1d20\u0126\u0394\u0106\u049c+");
+
+            if (!isCommand(((CPacketChatMessage) event.getPacket()).getMessage()))
+                ((ICPacketChatMessage)event.getPacket()).setMessageText(((CPacketChatMessage) event.getPacket()).getMessage() + suffix);
         }
+    }
+
+    private boolean isCommand(String message) {
+        return message.startsWith("/") || message.startsWith(".") || message.startsWith("*");
     }
 }
