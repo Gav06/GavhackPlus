@@ -51,6 +51,7 @@ public class FeatureManager {
 		add(new Freecam());
 
 		// misc
+		add(new AutoPorn());
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
