@@ -61,6 +61,7 @@ public class FeatureManager {
 		add(new AutoPrank());
 
 		// chat
+		add(new AutoSuicide());
 		add(new ChatSuffix());
 		add(new ChatTimestamps());
 		add(new PopCounter());
