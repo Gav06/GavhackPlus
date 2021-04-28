@@ -19,7 +19,7 @@ public class AutoPorn extends Feature {
 
     public void onEnable() {
         if(announceUsage.getValue()) {
-            mc.player.sendChatMessage("I just used CumHack AutoPorn I wonder what I just looked up?!");
+            mc.player.sendChatMessage("Me and the bois using GavHack+ AutoPorn what did I look up though?!");
         }
         if(mode.getMode().equals("Hentai")) {
             try {
