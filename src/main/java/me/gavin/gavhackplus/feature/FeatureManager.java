@@ -51,6 +51,7 @@ public class FeatureManager {
 		add(new Freecam());
 
 		// misc
+		add(new AutoPorn());
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
@@ -60,6 +61,7 @@ public class FeatureManager {
 		add(new AutoPrank());
 
 		// chat
+		add(new AutoSuicide());
 		add(new ChatSuffix());
 		add(new ChatTimestamps());
 		add(new PopCounter());
