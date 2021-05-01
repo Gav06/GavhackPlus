@@ -84,8 +84,9 @@ public class HUD extends Feature {
 				float x = sr.getScaledWidth() - FontUtil.getStringWidth(str) - 1;
 				float y = 1 + yOffset;
 
-
 				int color = ColorMod.globalColor.getRGB();
+
+
 
 				if (rainbow.getValue())
 					color = Util.getRGBWave(8.0f, 1.0f, 0.75f, (long) yOffset * 10L);
@@ -105,9 +106,8 @@ public class HUD extends Feature {
 					} catch (Exception ignored) {}
 
 					Gui.drawRect((int) x - 3, (int) y + FontUtil.getHeight(), sr.getScaledWidth() - rectLength, (int)y + FontUtil.getHeight() + 1, color);
-				}
-				
-				FontUtil.drawStringWithShadow(f.getName(), x, y,color);
+				} 
+				FontUtil.drawStringWithShadow(str, x, y, color);
 				float i_ = FontUtil.customFont ? 1.5f : 0;
 				yOffset += FontUtil.getHeight() + i_ + 1;
 			}
