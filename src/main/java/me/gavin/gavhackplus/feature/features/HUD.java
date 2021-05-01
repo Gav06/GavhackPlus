@@ -106,7 +106,8 @@ public class HUD extends Feature {
 					} catch (Exception ignored) {}
 
 					Gui.drawRect((int) x - 3, (int) y + FontUtil.getHeight(), sr.getScaledWidth() - rectLength, (int)y + FontUtil.getHeight() + 1, color);
-				} 
+				}
+
 				FontUtil.drawStringWithShadow(str, x, y, color);
 				float i_ = FontUtil.customFont ? 1.5f : 0;
 				yOffset += FontUtil.getHeight() + i_ + 1;

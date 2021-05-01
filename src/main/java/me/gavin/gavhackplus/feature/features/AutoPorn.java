@@ -82,6 +82,6 @@ public class AutoPorn extends Feature {
                 e.printStackTrace();
             }
         }
-        toggle();
+        disable();
     }
 }
