@@ -27,6 +27,7 @@ public class FeatureManager {
 		add(new KillAura());
 		add(new FastEXP());
 		add(new AutoCrystal());
+		add(new AutoTotem());
 		add(new BowSpam());
 
 		// movement
@@ -37,6 +38,7 @@ public class FeatureManager {
 		// render
 		add(new Fullbright());
 		//add(new ESP());
+		add(new BlockHighlight());
 		add(new Chams());
 		add(new AntiFog());
 		add(new ItemViewmodel());
@@ -49,6 +51,7 @@ public class FeatureManager {
 		add(new NoRain());
 		add(new Nuker());
 		add(new Freecam());
+		//add(new Scaffold());
 
 		// misc
 		add(new AutoPorn());

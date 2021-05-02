@@ -16,6 +16,7 @@
     "WorldPatch",
     "accessor.ICPacketChatMessage",
     "accessor.ICPacketUseEntity",
+    "accessor.ICPacketPlayer",
     "accessor.IMinecraft",
     "accessor.IRenderManager"
   ]

@@ -21,66 +21,77 @@ public class AutoPorn extends Feature {
         if(announceUsage.getValue()) {
             mc.player.sendChatMessage("Me and the bois using GavHack+ AutoPorn what did I look up though?!");
         }
-        if(mode.getMode().equals("Hentai")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=hentai%22"));
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Straight")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=straight%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Gay")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=gay%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Furry")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=furry%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Milf")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=milf%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Granny")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=granny%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Tranny")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=tranny%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Femboy")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=femboy%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("BBC")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=BBC%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(mode.getMode().equals("Sounding")) {
-            try {
-                Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=sounding%22"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        switch (mode.getMode()) {
+            case "Hentai":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=hentai%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Straight":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=straight%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Gay":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=gay%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Furry":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=furry%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Milf":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=milf%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Granny":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=granny%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Tranny":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=tranny%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Femboy":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=femboy%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "BBC":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=BBC%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Sounding":
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://www.pornhub.com/video/search?search=sounding%22"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
         disable();
     }

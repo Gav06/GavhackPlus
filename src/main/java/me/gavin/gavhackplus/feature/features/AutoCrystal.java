@@ -10,10 +10,10 @@ import me.gavin.gavhackplus.mixin.accessor.IMinecraft;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
-import me.gavin.gavhackplus.util.RenderUtil;
-import me.gavin.gavhackplus.util.TickTimer;
+import me.gavin.gavhackplus.util.*;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -23,15 +23,14 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
 import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.CombatRules;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -45,6 +44,7 @@ import java.util.Comparator;
 public class AutoCrystal extends Feature {
 
     private final ModeSetting logic = new ModeSetting("Logic", this, "Place -> Break", "Place -> Break", "Break -> Place");
+    private final BooleanSetting renderDamage = new BooleanSetting("RenderDamage", this, true);
     private final BooleanSetting breakBool = new BooleanSetting("Break", this, true);
     private final BooleanSetting placeBool = new BooleanSetting("Place", this, true);
     private final NumberSetting attackDistance = new NumberSetting("AttackRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
@@ -53,6 +53,7 @@ public class AutoCrystal extends Feature {
     private final NumberSetting placeDistance = new NumberSetting("PlaceDistance", this, 4f, 1f, 6f, 0.1f);
     private final NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2f, 0f, 20f, 1f);
     private final NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 3f, 0f, 20f, 1f);
+    private final BooleanSetting smartBreak = new BooleanSetting("SmartBreak", this, false);
     private final BooleanSetting offhand = new BooleanSetting("Offhand", this, false);
     private final BooleanSetting fastPlace = new BooleanSetting("FastPlace", this, true);
     private final BooleanSetting rotations = new BooleanSetting("Rotations", this, true);
@@ -64,6 +65,7 @@ public class AutoCrystal extends Feature {
         super("AutoCrystal", ":)", Category.Combat);
         addSettings(
                 logic,
+                renderDamage,
                 breakBool,
                 placeBool,
                 attackDistance,
@@ -106,9 +108,9 @@ public class AutoCrystal extends Feature {
 
     @EventTarget
     public void onRender(RenderEvent.World event) {
+        double[] rpos = Util.getRenderPos();
         if (renderBlock != null) {
             RenderUtil.prepareGL(1.0f);
-            double[] rpos = Util.getRenderPos();
             Color c = ColorMod.globalColor;
             RenderGlobal.renderFilledBox(renderBlock.offset(-rpos[0], -rpos[1], -rpos[2]), c.getRed() / 255f, c.getGreen() / 255f, c.getBlue() / 255f, 0.4f);
             RenderUtil.releaseGL();
@@ -117,19 +119,64 @@ public class AutoCrystal extends Feature {
         if (!debugRenders.getValue())
             return;
 
-        if (targetCrystal != null) {
 
+        if (targetCrystal != null) {
+            RenderUtil.prepareGL(1.0f);
+            AxisAlignedBB box = targetCrystal.getEntityBoundingBox().offset(-rpos[0], -rpos[1], -rpos[2]);
+            RenderGlobal.renderFilledBox(box, 1.0f, 0.0f, 0.0f, 0.4f);
+            RenderUtil.releaseGL();
+        }
+
+        if (targetPlayer != null) {
+            RenderUtil.prepareGL(1.0f);
+            AxisAlignedBB box = targetPlayer.getEntityBoundingBox().offset(-rpos[0], -rpos[1], -rpos[2]);
+            RenderGlobal.renderFilledBox(box, 1.0f, 0.0f, 0.0f, 0.4f);
+            RenderUtil.releaseGL();
         }
     }
 
     @EventTarget
-    public void onPacket(PacketEvent.Send event) {
+    public void onRender2d(RenderEvent.Screen event) {
+        if (!renderDamage.getValue())
+            return;
+
+        if (renderBlock != null && damageCalc != -1d) {
+            double x = renderBlock.minX + ((renderBlock.maxX - renderBlock.minX) / 2);
+            double y = renderBlock.minY + ((renderBlock.maxY - renderBlock.minY) / 2);
+            double z = renderBlock.minZ + ((renderBlock.maxZ - renderBlock.minZ) / 2);
+
+            Vec3d projection = ProjectionUtils.toScaledScreenPos(new Vec3d(x, y, z));
+
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(projection.x, projection.y, 0);
+            GlStateManager.scale(2, 2, 2);
+            mc.fontRenderer
+                    .drawStringWithShadow(String.valueOf(damageCalc), -mc.fontRenderer.getStringWidth(String.valueOf(damageCalc)) / 2f, 0, -1);
+            GlStateManager.popMatrix();
+        }
+    }
+
+    @EventTarget
+    public void onPacket0(PacketEvent.Send event) {
         if (rotations.getValue()) {
             if (event.getPacket() instanceof CPacketPlayer) {
                 CPacketPlayer packet = (CPacketPlayer) event.getPacket();
 
                 packet.yaw = rotateYaw;
                 packet.pitch = rotatePitch;
+            }
+        }
+    }
+
+    // to prevent desync
+    @EventTarget
+    public void onPacket1(PacketEvent.Receive event) {
+        if (event.getPacket() instanceof SPacketSoundEffect) {
+            final SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
+            if (packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
+                if (canAttackCrystal(targetCrystal)) {
+                    targetCrystal.setDead();
+                }
             }
         }
     }
@@ -141,6 +188,8 @@ public class AutoCrystal extends Feature {
     private EntityEnderCrystal targetCrystal;
     private AxisAlignedBB renderBlock;
 
+    private double damageCalc = -1d;
+
     private float rotateYaw = 0f;
     private float rotatePitch = 0f;
 
@@ -149,16 +198,16 @@ public class AutoCrystal extends Feature {
     private void doBreakLogic() {
         if (breakTimer.hasTicksPassed((long) breakDelay.getValue()) && breakBool.getValue()) {
             active = true;
-            for (Entity e : mc.world.loadedEntityList) {
-                if (e instanceof EntityEnderCrystal) {
-                    if (canAttackCrystal((EntityEnderCrystal) e)) {
-                        targetCrystal = (EntityEnderCrystal) e;
-                        break;
-                    }
-                }
-            }
+
+            findTargetCrystal();
 
             if (canAttackCrystal(targetCrystal)) {
+                if (smartBreak.getValue()) {
+                    BlockPos crystalPos = targetCrystal.getPosition();
+                    if (calculateDamage(crystalPos.getX(), crystalPos.getY(), crystalPos.getZ(), mc.player) >= maxSelfDmg.getValue())
+                        return;
+                }
+
                 if (mc.player.canEntityBeSeen(targetCrystal)) {
                     breakCrystal(targetCrystal);
                 } else {
@@ -188,17 +237,19 @@ public class AutoCrystal extends Feature {
             if (!offhand.getValue()) {
                 if (mc.player.inventory.getCurrentItem().getItem() != Items.END_CRYSTAL) {
                     renderBlock = null;
+                    damageCalc = -1;
                     return;
                 }
             } else {
                 if (mc.player.getHeldItemOffhand().getItem() != Items.END_CRYSTAL) {
                     renderBlock = null;
+                    damageCalc = -1;
                     return;
                 }
             }
 
             if (fastPlace.getValue())
-                ((IMinecraft)mc).setDelayTimer(0);
+                AccessHelper.MinecraftClient.setRightClickDelay(0);
 
             // getting target
             targetPlayer = mc.world.playerEntities.stream()
@@ -224,7 +275,9 @@ public class AutoCrystal extends Feature {
                         if (targetDamage >= highestTargetDamage && targetDamage >= minTargetDmg.getValue()) {
                             if (selfDamage <= maxSelfDmg.getValue()) {
                                 bestBlockPos = blockPos;
+                                highestTargetDamage = targetDamage;
                                 renderBlock = new AxisAlignedBB(blockPos);
+                                damageCalc = targetDamage;
                             }
                         }
                     }
@@ -245,6 +298,7 @@ public class AutoCrystal extends Feature {
             }
 
             renderBlock = null;
+            damageCalc = -1;
         }
     }
 
@@ -285,6 +339,16 @@ public class AutoCrystal extends Feature {
         }
 
         return false;
+    }
+
+    private void findTargetCrystal() {
+        targetCrystal = mc.world.loadedEntityList.stream()
+                .filter(e -> e instanceof EntityEnderCrystal)
+                .map(e -> (EntityEnderCrystal)e)
+                .filter(this::canAttackCrystal)
+                .sorted(Comparator.comparing(e -> mc.player.getDistance(e)))
+                .findFirst().orElse(null);
+
     }
 
     private ArrayList<BlockPos> getBlocksAroundPlayer(float range) {
@@ -376,9 +440,5 @@ public class AutoCrystal extends Feature {
                 }
             }
         }
-    }
-
-    private boolean isCrystalAtPos(BlockPos pos) {
-        return mc.world.getEntitiesWithinAABB(EntityEnderCrystal.class, new AxisAlignedBB(pos)).size() == 0;
     }
 }
