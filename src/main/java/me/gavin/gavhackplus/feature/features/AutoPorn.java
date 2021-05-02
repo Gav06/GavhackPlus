@@ -12,6 +12,10 @@ import java.net.URI;
 public class AutoPorn extends Feature {
     public AutoPorn() {
         super("AutoPorn", "What are you doing step bro?", Category.Misc);
+        addSettings(
+                mode,
+                announceUsage
+        );
     }
 
     private final ModeSetting mode = new ModeSetting("PornMode", this, "Hentai", "Straight", "Gay", "Furry", "Milf", "Granny", "Tranny", "Femboy", "BBC", "Sounding");
