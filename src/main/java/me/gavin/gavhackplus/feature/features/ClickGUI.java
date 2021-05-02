@@ -15,7 +15,7 @@ public class ClickGUI extends Feature {
 	public static ModeSetting background;
 	
 	public ClickGUI() {
-		super("ClickGUI", "The gui for managing features", Category.Misc, Keyboard.KEY_RSHIFT);
+		super("ClickGUI", "The gui for managing features", Category.Client, Keyboard.KEY_RSHIFT);
 		showBinds = new BooleanSetting("Binds", this, false);
 		clampPanels = new BooleanSetting("ClampSides", this, true);
 		background = new ModeSetting("Backdrop", this, "Gradient", "Gradient", "Default", "Blur", "None");

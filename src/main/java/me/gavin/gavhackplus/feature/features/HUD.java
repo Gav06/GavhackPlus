@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.darkmagician6.eventapi.EventTarget;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.events.RenderEvent;
 import me.gavin.gavhackplus.feature.Category;
@@ -16,6 +17,7 @@ import me.gavin.gavhackplus.setting.impl.ModeSetting;
 import me.gavin.gavhackplus.util.FontUtil;
 import me.gavin.gavhackplus.util.RenderUtil;
 import me.gavin.gavhackplus.util.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
@@ -26,6 +28,7 @@ public class HUD extends Feature {
 	private BooleanSetting modList = new BooleanSetting("ModList", this, true);
 	private BooleanSetting welcomer = new BooleanSetting("Welcomer", this, false);
 	private BooleanSetting coords = new BooleanSetting("Coordinates", this, true);
+	private BooleanSetting fps = new BooleanSetting("FPS", this, true);
 	private BooleanSetting fancyModList = new BooleanSetting("FancyModList", this, true);
 	private ModeSetting modSort = new ModeSetting("Sort", this, "Length", "ABC", "Length");
 	private BooleanSetting rainbow = new BooleanSetting("Rainbow", this, true);
