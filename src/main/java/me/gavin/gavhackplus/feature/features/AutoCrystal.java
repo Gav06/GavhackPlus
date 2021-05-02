@@ -151,7 +151,7 @@ public class AutoCrystal extends Feature {
             GlStateManager.translate(projection.x, projection.y, 0);
             GlStateManager.scale(2, 2, 2);
             mc.fontRenderer
-                    .drawStringWithShadow(String.valueOf(damageCalc), -mc.fontRenderer.getStringWidth(String.valueOf(damageCalc)) / 2f, 0, -1);
+                    .drawStringWithShadow(String.valueOf((int)damageCalc), -mc.fontRenderer.getStringWidth(String.valueOf(damageCalc)) / 2f, 0, -1);
             GlStateManager.popMatrix();
         }
     }
@@ -162,8 +162,8 @@ public class AutoCrystal extends Feature {
             if (event.getPacket() instanceof CPacketPlayer) {
                 CPacketPlayer packet = (CPacketPlayer) event.getPacket();
 
-                packet.yaw = rotateYaw;
-                packet.pitch = rotatePitch;
+                AccessHelper.CPPlayer.setYaw(packet, rotateYaw);
+                AccessHelper.CPPlayer.setPitch(packet, rotatePitch);
             }
         }
     }
@@ -344,10 +344,10 @@ public class AutoCrystal extends Feature {
     private void findTargetCrystal() {
         targetCrystal = mc.world.loadedEntityList.stream()
                 .filter(e -> e instanceof EntityEnderCrystal)
-                .map(e -> (EntityEnderCrystal)e)
+                .map(e -> (EntityEnderCrystal) e)
                 .filter(this::canAttackCrystal)
-                .sorted(Comparator.comparing(e -> mc.player.getDistance(e)))
-                .findFirst().orElse(null);
+                .min(Comparator.comparing(e -> mc.player.getDistance(e)))
+                .orElse(null);
 
     }
 
