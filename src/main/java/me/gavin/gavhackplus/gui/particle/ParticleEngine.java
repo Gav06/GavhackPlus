@@ -22,7 +22,7 @@ public class ParticleEngine {
     public float lastMouseX;
     public float lastMouseY;
 
-    public void render(float mouseX, float mouseY) {
+    public void render(float mouseX, float mouseY, float partialTicks) {
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.color(1, 1, 1, 1);
@@ -39,10 +39,14 @@ public class ParticleEngine {
             if (p.opacity > 32) {
                 p.opacity = 32;
             }
+            p.ticks *= partialTicks;
             Color c = new Color(255, 255, 255, (int) p.opacity);
             RenderUtil.drawBorderedCircle(p.x + Math.sin(p.ticks / 2) * 50 + -xOffset / 5, (p.ticks * p.speed) * p.ticks / 10 + -yOffset / 5, p.radius * (p.opacity / 32), c.getRGB(), c.getRGB());
             p.ticks += 0.05;
-            if (((p.ticks * p.speed) * p.ticks / 10 + -yOffset / 5) > sr.getScaledHeight() || ((p.ticks * p.speed) * p.ticks / 10 + -yOffset / 5) < 0 || (p.x + Math.sin(p.ticks / 2) * 50 + -xOffset / 5) > sr.getScaledWidth() || (p.x + Math.sin(p.ticks / 2) * 50 + -xOffset / 5) < 0) {
+            if (((p.ticks * p.speed) * p.ticks / 10 + -yOffset / 5) > sr.getScaledHeight()
+                    || ((p.ticks * p.speed) * p.ticks / 10 + -yOffset / 5) < 0
+                    || (p.x + Math.sin(p.ticks / 2) * 50 + -xOffset / 5) > sr.getScaledWidth()
+                    || (p.x + Math.sin(p.ticks / 2) * 50 + -xOffset / 5) < 0) {
                 toremove.add(p);
             }
         }

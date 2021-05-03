@@ -1,5 +1,6 @@
 package me.gavin.gavhackplus.feature;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,11 @@ import com.darkmagician6.eventapi.EventTarget;
 
 import me.gavin.gavhackplus.events.KeyEvent;
 import me.gavin.gavhackplus.feature.features.*;
+import me.gavin.gavhackplus.setting.RegisterSetting;
+import me.gavin.gavhackplus.setting.impl.BooleanSetting;
+import me.gavin.gavhackplus.setting.impl.KeybindSetting;
+import me.gavin.gavhackplus.setting.impl.ModeSetting;
+import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.FontUtil;
 
 
@@ -26,7 +32,7 @@ public class FeatureManager {
 		add(new AntiBot());
 		add(new KillAura());
 		add(new FastEXP());
-		add(new AutoEnderCrystalAura());
+		add(new AutoCrystal());
 		add(new BowSpam());
 
 		// movement
@@ -51,7 +57,7 @@ public class FeatureManager {
 		add(new Freecam());
 
 		// misc
-		add(new AutoPorn());
+		//add(new AutoPorn());
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
@@ -78,6 +84,29 @@ public class FeatureManager {
 	}
 
 	private void add(Feature feature) {
+		for (Field field : feature.getClass().getDeclaredFields()) {
+			try {
+				if (!field.isAccessible())
+					field.setAccessible(true);
+
+				// checking if annotation is there
+				if (field.isAnnotationPresent(RegisterSetting.class)) {
+					// checking if setting
+					if (field.getType() == NumberSetting.class) {
+						feature.addSettings((NumberSetting)field.get(this));
+						System.out.println("detected and added number setting");
+					} else if (field.getType() == ModeSetting.class) {
+						feature.addSettings((ModeSetting)field.get(this));
+					} else if (field.getType() == BooleanSetting.class) {
+						feature.addSettings((BooleanSetting)field.get(this));
+					} else if (field.getType() == KeybindSetting.class) {
+						feature.addSettings((KeybindSetting)field.get(this));
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		features.add(feature);
 	}
 

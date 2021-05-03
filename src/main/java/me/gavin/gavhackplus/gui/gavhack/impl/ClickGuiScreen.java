@@ -84,7 +84,7 @@ public class ClickGuiScreen extends GuiScreen {
 			}
 		}
 		if (ClickGUI.particles.getValue())
-			Gavhack.particleEngine.render(mouseX, mouseY);
+			Gavhack.particleEngine.render(mouseX, mouseY, partialTicks);
 	}
 
 	@Override

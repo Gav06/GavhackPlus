@@ -6,6 +6,7 @@ import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
 import me.gavin.gavhackplus.mixin.accessor.IMinecraft;
+import me.gavin.gavhackplus.setting.RegisterSetting;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.TickTimer;
@@ -36,28 +37,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AutoEnderCrystalAura extends Feature {
+public class AutoCrystal extends Feature {
 
-    private final NumberSetting attackDistance = new NumberSetting("AttackRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
-    private final NumberSetting placeDistance = new NumberSetting("PlaceRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
-    private final NumberSetting minDmg = new NumberSetting("MinDmg", this, 4.0f, 0.1f, 10.0f, 0.1f);
-    private final NumberSetting maxSelfDmg = new NumberSetting("MaxSelfDmg", this, 15.0f, 1.0f, 30.0f, 0.1f);
-    private final NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
-    private final NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
-    private final BooleanSetting setDead = new BooleanSetting("SetDead", this, true);
-    private final BooleanSetting fastPlace = new BooleanSetting("FastPlace", this, true);
+    @RegisterSetting
+    private NumberSetting attackDistance = new NumberSetting("AttackRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
+
+    @RegisterSetting
+    private NumberSetting placeDistance = new NumberSetting("PlaceRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
+
+    @RegisterSetting
+    private NumberSetting minDmg = new NumberSetting("MinDmg", this, 4.0f, 0.1f, 10.0f, 0.1f);
+
+    @RegisterSetting
+    private NumberSetting maxSelfDmg = new NumberSetting("MaxSelfDmg", this, 15.0f, 1.0f, 30.0f, 0.1f);
+
+    @RegisterSetting
+    private NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
+
+    @RegisterSetting
+    private NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
+
+    @RegisterSetting
+    private BooleanSetting setDead = new BooleanSetting("SetDead", this, true);
+
+    @RegisterSetting
+    private BooleanSetting fastPlace = new BooleanSetting("FastPlace", this, true);
 
 
     private final TickTimer breakTickTimer;
     private final TickTimer placeTickTimer;
 
-    private boolean isPlacing;
-    private boolean doneBreaking;
-
-    public AutoEnderCrystalAura() {
-        super("AutoEnderCrystalAura", ":)", Category.Combat);
-
-        addSettings(breakDelay, placeDelay, attackDistance, placeDistance, setDead, minDmg, maxSelfDmg, fastPlace);
+    public AutoCrystal() {
+        super("AutoCrystal", ":)", Category.Combat);
         breakTickTimer = new TickTimer();
         placeTickTimer = new TickTimer();
     }
@@ -65,6 +76,7 @@ public class AutoEnderCrystalAura extends Feature {
     private ArrayList<BlockPos> placedCrystals = new ArrayList<>();
 
     private EntityEnderCrystal targetCrystal;
+    private BlockPos lastPlacedPos;
 
     @EventTarget
     public void onTick(TickEvent event) {
@@ -93,7 +105,6 @@ public class AutoEnderCrystalAura extends Feature {
     }
 
     private void doBreakLogic() {
-        doneBreaking = false;
         targetCrystal = mc.world.loadedEntityList.stream()
                 .filter(e -> e.getDistance(mc.player) <= attackDistance.getValue())
                 .filter(e -> e instanceof EntityEnderCrystal)
@@ -101,19 +112,18 @@ public class AutoEnderCrystalAura extends Feature {
                 .filter(this::canAttackCrystal)
                 .findFirst().orElse(null);
 
-        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false) && !isPlacing) {
+        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false)) {
             mc.player.swingArm(EnumHand.MAIN_HAND);
             mc.player.connection.sendPacket(new CPacketUseEntity(targetCrystal));
             breakTickTimer.reset();
         }
-        doneBreaking = true;
     }
 
     EntityPlayer targetPlayer;
 
     private void doPlaceLogic() {
+
         // finding target based on highest damage
-        isPlacing = true;
         List<BlockPos> crystalBlocks =
                 getBlocksAroundPlayer(placeDistance.getValue())
                         .stream()
@@ -155,13 +165,12 @@ public class AutoEnderCrystalAura extends Feature {
         if (crystalPosition != null) {
             assert crystalPosition != null;
             if (placeTickTimer.hasTicksPassed((int) placeDelay.getValue(), false)) {
-
                 mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(crystalPosition, EnumFacing.UP, EnumHand.MAIN_HAND, 0f, 0f, 0f));
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 placeTickTimer.reset();
+                lastPlacedPos = crystalPosition;
             }
         }
-        isPlacing = false;
     }
 
     private boolean canPlaceCrystal(BlockPos pos) {
