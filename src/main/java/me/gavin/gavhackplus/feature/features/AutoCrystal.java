@@ -83,6 +83,7 @@ public class AutoCrystal extends Feature {
 
     @Override
     public void onEnable() {
+        thingy = true;
         active = false;
         if (mc.player != null) {
             rotatePitch = mc.player.rotationPitch;
@@ -194,6 +195,8 @@ public class AutoCrystal extends Feature {
     private float rotatePitch = 0f;
 
     private boolean active = false;
+
+    private boolean thingy = false;
 
     private void doBreakLogic() {
         if (breakTimer.hasTicksPassed((long) breakDelay.getValue()) && breakBool.getValue()) {
@@ -411,14 +414,18 @@ public class AutoCrystal extends Feature {
     }
 
     private void place(BlockPos pos) {
-        EnumHand hand = offhand.getValue() ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
-        swingArm();
-        mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, hand, 0, 0, 0));
+        if (thingy) {
+            EnumHand hand = offhand.getValue() ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+            swingArm();
+            mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(pos, EnumFacing.UP, hand, 0, 0, 0));
+            thingy = false;
+        }
     }
 
     private void breakCrystal(EntityEnderCrystal crystal) {
         swingArm();
-        mc.player.connection.sendPacket(new CPacketUseEntity(crystal));
+        mc.playerController.attackEntity(mc.player, crystal);
+        thingy = true;
     }
 
     private void swingArm() {

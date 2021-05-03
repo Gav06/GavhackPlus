@@ -7,6 +7,7 @@
     "EntityPatch",
     "EntityPlayerSPPatch",
     "EntityRendererPatch",
+    "GuiMainMenuPatch",
     "ItemRendererPatch",
     "MinecraftPatch",
     "NetworkManagerPatch",
@@ -15,8 +16,8 @@
     "StateImplementationPatch",
     "WorldPatch",
     "accessor.ICPacketChatMessage",
-    "accessor.ICPacketUseEntity",
     "accessor.ICPacketPlayer",
+    "accessor.ICPacketUseEntity",
     "accessor.IMinecraft",
     "accessor.IRenderManager"
   ]

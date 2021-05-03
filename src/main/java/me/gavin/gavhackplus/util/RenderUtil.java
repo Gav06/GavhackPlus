@@ -73,7 +73,6 @@ public class RenderUtil {
 	
 	public static void lineBox2D(float x1, float y1, float x2, float y2, float width) {
 		glLineWidth(width);
-		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
 		{
 			glVertex2f(x1, y1);

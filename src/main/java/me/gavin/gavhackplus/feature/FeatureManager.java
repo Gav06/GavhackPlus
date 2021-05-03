@@ -37,7 +37,7 @@ public class FeatureManager {
 
 		// render
 		add(new Fullbright());
-		//add(new ESP());
+		add(new ESP());
 		add(new BlockHighlight());
 		add(new Chams());
 		add(new AntiFog());
