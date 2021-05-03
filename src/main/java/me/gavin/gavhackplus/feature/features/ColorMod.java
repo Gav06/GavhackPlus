@@ -15,7 +15,7 @@ public class ColorMod extends Feature {
 	private static BooleanSetting rainbow;
 
 	public ColorMod() {
-		super("Color", "Global color values for the client", Category.Misc);
+		super("Color", "Global color values for the client", Category.Client);
 
 		red = new NumberSetting("R", this, 255, 0, 255, 1);
 		green = new NumberSetting("G", this, 0, 0, 255, 1);

@@ -33,6 +33,7 @@ public class FeatureManager {
 		add(new KillAura());
 		add(new FastEXP());
 		add(new AutoCrystal());
+		add(new AutoTotem());
 		add(new BowSpam());
 
 		// movement
@@ -42,7 +43,8 @@ public class FeatureManager {
 
 		// render
 		add(new Fullbright());
-		//add(new ESP());
+		add(new ESP());
+		add(new BlockHighlight());
 		add(new Chams());
 		add(new AntiFog());
 		add(new ItemViewmodel());
@@ -55,6 +57,7 @@ public class FeatureManager {
 		add(new NoRain());
 		add(new Nuker());
 		add(new Freecam());
+		//add(new Scaffold());
 
 		// misc
 		//add(new AutoPorn());
@@ -84,29 +87,6 @@ public class FeatureManager {
 	}
 
 	private void add(Feature feature) {
-		for (Field field : feature.getClass().getDeclaredFields()) {
-			try {
-				if (!field.isAccessible())
-					field.setAccessible(true);
-
-				// checking if annotation is there
-				if (field.isAnnotationPresent(RegisterSetting.class)) {
-					// checking if setting
-					if (field.getType() == NumberSetting.class) {
-						feature.addSettings((NumberSetting)field.get(this));
-						System.out.println("detected and added number setting");
-					} else if (field.getType() == ModeSetting.class) {
-						feature.addSettings((ModeSetting)field.get(this));
-					} else if (field.getType() == BooleanSetting.class) {
-						feature.addSettings((BooleanSetting)field.get(this));
-					} else if (field.getType() == KeybindSetting.class) {
-						feature.addSettings((KeybindSetting)field.get(this));
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 		features.add(feature);
 	}
 

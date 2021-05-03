@@ -8,11 +8,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import static org.lwjgl.opengl.GL11.*;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL32;
 
 import java.awt.*;
 
 public class RenderUtil {
+	public static RenderUtil INSTANCE = new RenderUtil();
 
 	public static void prepareGL(float lineWidth) {
 		GlStateManager.pushMatrix();
@@ -58,7 +60,7 @@ public class RenderUtil {
 		GlStateManager.enableTexture2D();
 		GlStateManager.popMatrix();
 	}
-	
+
 	public static void glLine2D(float x1, float y1, float x2, float y2, float width) {
 		glLineWidth(width);
 		glBegin(GL_LINES);
@@ -71,7 +73,6 @@ public class RenderUtil {
 	
 	public static void lineBox2D(float x1, float y1, float x2, float y2, float width) {
 		glLineWidth(width);
-		glEnable(GL_LINE_SMOOTH);
 		glBegin(GL_LINE_LOOP);
 		{
 			glVertex2f(x1, y1);

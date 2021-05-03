@@ -8,6 +8,7 @@ import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
+import me.gavin.gavhackplus.util.ProjectionUtils;
 import me.gavin.gavhackplus.util.RenderUtil;
 import me.gavin.gavhackplus.util.Util;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,42 +34,23 @@ public class Nametags extends Feature {
     }
 
     @EventTarget
-    public void onRender3d(RenderEvent.World event) {
+    public void onRender2d(RenderEvent.Screen event) {
         for (EntityPlayer player : mc.world.playerEntities) {
             if (player.equals(mc.player))
                 continue;
 
+            GlStateManager.pushMatrix();
             double yAdd = player.isSneaking() ? 1.75 : 2.25;
 
-            double deltaX = MathHelper.clampedLerp(player.lastTickPosX, player.posX, mc.getRenderPartialTicks());
-            double deltaY = MathHelper.clampedLerp(player.lastTickPosY + yAdd, player.posY + yAdd, mc.getRenderPartialTicks());
-            double deltaZ = MathHelper.clampedLerp(player.lastTickPosZ, player.posZ, mc.getRenderPartialTicks());
+            double deltaX = MathHelper.clampedLerp(player.lastTickPosX, player.posX, event.getPartialTicks());
+            double deltaY = MathHelper.clampedLerp(player.lastTickPosY, player.posY, event.getPartialTicks());
+            double deltaZ = MathHelper.clampedLerp(player.lastTickPosZ, player.posZ, event.getPartialTicks());
 
-            double lastDistance = getDistance(
-                    new Vec3d(mc.player.lastTickPosX, mc.player.lastTickPosY, mc.player.lastTickPosZ),
-                    new Vec3d(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ));
-            double nowDistance = getDistance(mc.player.getPositionVector(), player.getPositionVector());
-            double lerp = MathHelper.clampedLerp(lastDistance, nowDistance, event.getPartialTicks());
-            if (lerp <= 3)
-                lerp = 3;
-            double deltaScale = lerp;
 
-            deltaScale /= (200.0D / scale.getValue());
+            Vec3d projection = ProjectionUtils.toScaledScreenPos(new Vec3d(deltaX, deltaY, deltaZ).add(0, yAdd, 0));
 
-            double[] rpos = Util.getRenderPos();
-            RenderUtil.prepareGL(0.1f);
-
-            // moving everything to the correct position
-            GlStateManager.translate(deltaX - rpos[0], deltaY - rpos[1], deltaZ - rpos[2]);
-            // rotating so it is always facing the player
-            GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0f, 1.0f, 0.0f);
-            GlStateManager.rotate(mc.getRenderManager().playerViewX, mc.gameSettings.thirdPersonView == 2 ? -1.0f : 1.0f, 0.0f, 0.0f);
-
-            // scaling properly
-            GlStateManager.scale(-deltaScale, -deltaScale, -deltaScale);
-
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-
+            GlStateManager.translate(projection.x, projection.y, 0);
+            GlStateManager.scale(scale.getValue(), scale.getValue(), 0);
             int ping = -1;
 
             if (mc.getConnection() != null) {
@@ -95,7 +77,6 @@ public class Nametags extends Feature {
                     0xFFFFFFFF,
                     1.0f);
 
-            GlStateManager.enableTexture2D();
             mc.fontRenderer.drawStringWithShadow(str, -(mc.fontRenderer.getStringWidth(str) / 2f), -(mc.fontRenderer.FONT_HEIGHT), -1);
 
             int y = -(mc.fontRenderer.FONT_HEIGHT * 3);
@@ -125,7 +106,7 @@ public class Nametags extends Feature {
                 }
             }
 
-            RenderUtil.releaseGL();
+            GlStateManager.popMatrix();
         }
 
     }

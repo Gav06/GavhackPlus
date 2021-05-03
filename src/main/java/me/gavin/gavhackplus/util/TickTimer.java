@@ -6,31 +6,23 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TickTimer {
 
+    private long ticksPassed = 0L;
+    private long lastTicks = ticksPassed;
+
     public TickTimer() {
         MinecraftForge.EVENT_BUS.register(this);
     }
-
-    private int ticksPassed = 0;
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
         ticksPassed++;
     }
 
-    private int lastTickAmount = ticksPassed;
-
-    public void reset() {
-        lastTickAmount = ticksPassed;
+    public boolean hasTicksPassed(long ticks) {
+        return ticksPassed - lastTicks > ticks;
     }
 
-    public boolean hasTicksPassed(int amount, boolean reset) {
-        if (ticksPassed - lastTickAmount > amount) {
-            if (reset)
-                reset();
-
-            return true;
-        }
-
-        return false;
+    public void reset() {
+        lastTicks = ticksPassed;
     }
 }
