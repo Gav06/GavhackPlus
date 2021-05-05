@@ -112,7 +112,7 @@ public class AutoCrystal extends Feature {
                 .filter(this::canAttackCrystal)
                 .findFirst().orElse(null);
 
-        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false)) {
+        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((long) breakDelay.getValue())) {
             mc.player.swingArm(EnumHand.MAIN_HAND);
             mc.player.connection.sendPacket(new CPacketUseEntity(targetCrystal));
             breakTickTimer.reset();
@@ -164,7 +164,7 @@ public class AutoCrystal extends Feature {
         }
         if (crystalPosition != null) {
             assert crystalPosition != null;
-            if (placeTickTimer.hasTicksPassed((int) placeDelay.getValue(), false)) {
+            if (placeTickTimer.hasTicksPassed((long) placeDelay.getValue())) {
                 mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(crystalPosition, EnumFacing.UP, EnumHand.MAIN_HAND, 0f, 0f, 0f));
                 mc.player.swingArm(EnumHand.MAIN_HAND);
                 placeTickTimer.reset();
