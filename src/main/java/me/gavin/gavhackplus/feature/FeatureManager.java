@@ -1,6 +1,5 @@
 package me.gavin.gavhackplus.feature;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +8,6 @@ import com.darkmagician6.eventapi.EventTarget;
 
 import me.gavin.gavhackplus.events.KeyEvent;
 import me.gavin.gavhackplus.feature.features.*;
-import me.gavin.gavhackplus.setting.RegisterSetting;
-import me.gavin.gavhackplus.setting.impl.BooleanSetting;
-import me.gavin.gavhackplus.setting.impl.KeybindSetting;
-import me.gavin.gavhackplus.setting.impl.ModeSetting;
-import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.FontUtil;
 
 

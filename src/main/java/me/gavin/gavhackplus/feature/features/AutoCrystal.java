@@ -1,12 +1,9 @@
 package me.gavin.gavhackplus.feature.features;
 
 import com.darkmagician6.eventapi.EventTarget;
-import me.gavin.gavhackplus.events.PacketEvent;
 import me.gavin.gavhackplus.events.TickEvent;
 import me.gavin.gavhackplus.feature.Category;
 import me.gavin.gavhackplus.feature.Feature;
-import me.gavin.gavhackplus.mixin.accessor.IMinecraft;
-import me.gavin.gavhackplus.setting.RegisterSetting;
 import me.gavin.gavhackplus.setting.impl.BooleanSetting;
 import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.TickTimer;
@@ -18,13 +15,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketUseEntity;
-import net.minecraft.network.play.server.SPacketSoundEffect;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.*;
+import net.minecraft.util.CombatRules;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -33,159 +28,95 @@ import net.minecraft.world.Explosion;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AutoCrystal extends Feature {
 
-    @RegisterSetting
-    private NumberSetting attackDistance = new NumberSetting("AttackRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
+    private final NumberSetting targetRange = new NumberSetting("TargetRange", this, 6f, 2f, 12f, 0.1f);
 
-    @RegisterSetting
-    private NumberSetting placeDistance = new NumberSetting("PlaceRange", this, 4.0f, 1.0f, 6.0f, 0.1f);
+    private final BooleanSetting swingArm = new BooleanSetting("SwingArm", this, true);
 
-    @RegisterSetting
-    private NumberSetting minDmg = new NumberSetting("MinDmg", this, 4.0f, 0.1f, 10.0f, 0.1f);
+    private final BooleanSetting offhand = new BooleanSetting("Offhand", this, false);
 
-    @RegisterSetting
-    private NumberSetting maxSelfDmg = new NumberSetting("MaxSelfDmg", this, 15.0f, 1.0f, 30.0f, 0.1f);
+    private final NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2f, 1f, 20f, 1f);
+    private final NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2f, 1f, 20f, 1f);
 
-    @RegisterSetting
-    private NumberSetting breakDelay = new NumberSetting("BreakDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
+    private final NumberSetting maxSelfDmg = new NumberSetting("MaxSelfDmg", this, 8f, 0.1f, 50f, 0.1f);
+    private final NumberSetting minTargetDmg = new NumberSetting("MinTargetDmg", this, 5f, 1f, 50f, 0.1f);
 
-    @RegisterSetting
-    private NumberSetting placeDelay = new NumberSetting("PlaceDelay", this, 2.0f, 0.0f, 20.0f, 1.0f);
+    private final NumberSetting placeRange = new NumberSetting("PlaceRange", this, 4f, 1f, 6f, 0.1f);
+    private final NumberSetting breakRange = new NumberSetting("BreakRange", this, 4f, 1f, 6f, 0.1f);
 
-    @RegisterSetting
-    private BooleanSetting setDead = new BooleanSetting("SetDead", this, true);
+    private final NumberSetting wallsRange = new NumberSetting("WallsRange", this, 3f, 0f, 5f, 0.1f);
 
-    @RegisterSetting
-    private BooleanSetting fastPlace = new BooleanSetting("FastPlace", this, true);
-
-
-    private final TickTimer breakTickTimer;
-    private final TickTimer placeTickTimer;
 
     public AutoCrystal() {
-        super("AutoCrystal", ":)", Category.Combat);
-        breakTickTimer = new TickTimer();
-        placeTickTimer = new TickTimer();
+        super("AutoCrystal", ":^)", Category.Combat);
+        addSettings(
+                targetRange,
+                swingArm,
+                placeDelay, breakDelay,
+                maxSelfDmg, minTargetDmg,
+                placeRange, breakRange, wallsRange);
     }
 
-    private ArrayList<BlockPos> placedCrystals = new ArrayList<>();
+    private List<Integer> idList = new ArrayList<>();
 
-    private EntityEnderCrystal targetCrystal;
-    private BlockPos lastPlacedPos;
+    private EntityPlayer targetPlayer = null;
+    private EntityEnderCrystal targetCrystal = null;
+
+    private final TickTimer placeTimer = new TickTimer();
+    private final TickTimer breakTimer = new TickTimer();
 
     @EventTarget
     public void onTick(TickEvent event) {
-        if (fastPlace.getValue()) {
-            if (mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL) {
-                ((IMinecraft) mc).setDelayTimer(0);
+        // target
+
+
+        placeTimer.setDelay((int) placeDelay.getValue());
+        breakTimer.setDelay((int) breakDelay.getValue());
+
+        // break logic
+        if (breakTimer.isPassed()) {
+
+        }
+
+        // place logic
+        if (placeTimer.isPassed()) {
+            targetPlayer = getTargetPlayer();
+            if (targetPlayer != null) {
+
             }
         }
 
-        doPlaceLogic();
-        doBreakLogic();
+        placeTimer.resetDelay();
+        breakTimer.setPaused(false);
+        placeTimer.setPaused(true);
     }
 
-    @EventTarget
-    public void onPacket(PacketEvent.Receive event) {
-        if (!setDead.getValue())
-            return;
-
-        if (event.getPacket() instanceof SPacketSoundEffect) {
-            SPacketSoundEffect sound = (SPacketSoundEffect) event.getPacket();
-            if (sound.getSound() == SoundEvents.ENTITY_GENERIC_EXPLODE) {
-                if (canAttackCrystal(targetCrystal))
-                    targetCrystal.setDead();
-            }
-        }
+    private EntityPlayer getTargetPlayer() {
+       return mc.world.loadedEntityList.stream()
+                .filter(e -> e instanceof EntityPlayer)
+                .map(e -> (EntityPlayer) e)
+                .filter(player -> !player.equals(mc.player))
+                .filter(player -> player.getDistance(mc.player) <= targetRange.getValue())
+                .min(Comparator.comparing(player -> player.getDistance(mc.player)))
+                .orElse(null);
     }
 
-    private void doBreakLogic() {
-        targetCrystal = mc.world.loadedEntityList.stream()
-                .filter(e -> e.getDistance(mc.player) <= attackDistance.getValue())
+    private EntityEnderCrystal getTargetCrystal() {
+        return mc.world.loadedEntityList.stream()
                 .filter(e -> e instanceof EntityEnderCrystal)
                 .map(e -> (EntityEnderCrystal) e)
-                .filter(this::canAttackCrystal)
-                .findFirst().orElse(null);
-
-        if (canAttackCrystal(targetCrystal) && breakTickTimer.hasTicksPassed((int) breakDelay.getValue(), false)) {
-            mc.player.swingArm(EnumHand.MAIN_HAND);
-            mc.player.connection.sendPacket(new CPacketUseEntity(targetCrystal));
-            breakTickTimer.reset();
-        }
-    }
-
-    EntityPlayer targetPlayer;
-
-    private void doPlaceLogic() {
-
-        // finding target based on highest damage
-        List<BlockPos> crystalBlocks =
-                getBlocksAroundPlayer(placeDistance.getValue())
-                        .stream()
-                        .filter(this::canPlaceCrystal)
-                        .sorted(Comparator.comparing(blockPos -> mc.player.getDistanceSq(blockPos)))
-                        .collect(Collectors.toList());
-
-        BlockPos crystalPosition = null;
-
-        for (Entity e : mc.world.loadedEntityList) {
-            if (e instanceof EntityPlayer && e.getDistance(mc.player) <= placeDistance.getValue()) {
-                if (e.equals(mc.player))
-                    continue;
-
-                targetPlayer = (EntityPlayer) e;
-
-                double bestDamage = Double.MIN_VALUE;
-                BlockPos bestPos = null;
-
-                for (BlockPos pos : crystalBlocks) {
-                    // adding 0.5 to x for crystal width
-                    // adding 1.0 to y because crystal will be placed above
-                    double targetDamage = calculateDamage(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, targetPlayer);
-                    double selfDmg = calculateDamage(pos.getX() + 0.5D, pos.getY() + 1, pos.getZ() + 0.5D, mc.player);
-
-                    if (targetDamage >= minDmg.getValue() && selfDmg <= maxSelfDmg.getValue()) {
-                        if (targetDamage > bestDamage) {
-                            bestDamage = targetDamage;
-                            bestPos = pos;
-                        }
-                    }
-                }
-
-                if (bestPos != null) {
-                    crystalPosition = bestPos;
-                }
-            }
-        }
-        if (crystalPosition != null) {
-            assert crystalPosition != null;
-            if (placeTickTimer.hasTicksPassed((int) placeDelay.getValue(), false)) {
-                mc.player.connection.sendPacket(new CPacketPlayerTryUseItemOnBlock(crystalPosition, EnumFacing.UP, EnumHand.MAIN_HAND, 0f, 0f, 0f));
-                mc.player.swingArm(EnumHand.MAIN_HAND);
-                placeTickTimer.reset();
-                lastPlacedPos = crystalPosition;
-            }
-        }
+                .filter(crystal -> crystal.getDistance(mc.player) <= breakRange.getValue())
+                .min(Comparator.comparing(crystal -> crystal.getDistance(mc.player)))
+                .orElse(null);
     }
 
     private boolean canPlaceCrystal(BlockPos pos) {
-        // checking if blocks above are air
-        if (getBlock(pos.add(0, 1, 0)) == Blocks.AIR && getBlock(pos.add(0, 2, 0)) == Blocks.AIR) {
-
-            // seeing if it is obsidian or bedrock
-            if (getBlock(pos) == Blocks.OBSIDIAN || getBlock(pos) == Blocks.BEDROCK) {
-                // checking if nobody is standing directly above the block
-                BlockPos air1 = pos.add(0, 1, 0);
-                BlockPos air2 = pos.add(0, 2, 0);
-
-                return mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(air1)).isEmpty()
-                        && mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(air2)).isEmpty();
-
+        if (blockAt(pos) == Blocks.BEDROCK || blockAt(pos) == Blocks.OBSIDIAN) {
+            if (blockAt(pos.add(0, 1, 0)) == Blocks.AIR && blockAt(pos.add(0, 2, 0)) == Blocks.AIR) {
+                return mc.world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos)).size() == 0;
             } else {
                 return false;
             }
@@ -194,26 +125,15 @@ public class AutoCrystal extends Feature {
         }
     }
 
-    private Block getBlock(BlockPos pos) {
+    private Block blockAt(BlockPos pos) {
         return mc.world.getBlockState(pos).getBlock();
-    }
-
-    private boolean canAttackCrystal(EntityEnderCrystal targetCrystal) {
-        if (targetCrystal != null) {
-            if (mc.player.getDistance(targetCrystal) <= attackDistance.getValue()) {
-                return !targetCrystal.isDead;
-            }
-        }
-
-        return false;
     }
 
     private ArrayList<BlockPos> getBlocksAroundPlayer(float range) {
         ArrayList<BlockPos> posList = new ArrayList<>();
+
         for (float x = -range; x < range; x++) {
-            // loop for y axis
             for (float y = range + 1; y > -range; y--) {
-                // loop for z axis
                 for (float z = -range; z < range; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     posList.add(pos.add(mc.player.getPosition()));
@@ -236,7 +156,7 @@ public class AutoCrystal extends Feature {
             float f = MathHelper.clamp(k, 0.0F, 20.0F);
             damage *= 1.0F - f / 25.0F;
 
-            if (entity.isPotionActive(Potion.getPotionById(11))) {
+            if (entity.isPotionActive(MobEffects.ABSORPTION)) {
                 damage = damage - (damage / 4);
             }
             damage = Math.max(damage, 0.0F);
@@ -264,5 +184,17 @@ public class AutoCrystal extends Feature {
             finald = getBlastReduction((EntityLivingBase) entity, getDamageMultiplied(damage), new Explosion(mc.world, null, posX, posY, posZ, 6F, false, true));
         }
         return (float) finald;
+    }
+
+    private void attack(EntityEnderCrystal crystal) {
+        EnumHand hand = offhand.getValue() ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+        swingArm(hand);
+        mc.player.connection.sendPacket(new CPacketUseEntity(crystal, hand));
+    }
+
+    private void swingArm(EnumHand hand) {
+        if (swingArm.getValue()) {
+            mc.player.swingArm(hand);
+        }
     }
 }

@@ -1,28 +1,45 @@
 package me.gavin.gavhackplus.util;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 public class TickTimer {
 
-    private long ticksPassed = 0L;
-    private long lastTicks = ticksPassed;
+    double startTick;
+    double delay;
 
-    public TickTimer() {
-        MinecraftForge.EVENT_BUS.register(this);
+    boolean paused;
+
+    public TickTimer(){
+
+        startTick = ((double) System.currentTimeMillis()) / 1000 * 20;
+
+        paused = false;
     }
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
-        ticksPassed++;
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
-    public boolean hasTicksPassed(long ticks) {
-        return ticksPassed - lastTicks > ticks;
+    public boolean isPassed(){
+        if (!paused) {
+            return ((double) System.currentTimeMillis()) / 1000 * 20 - startTick >= delay;
+        }
+
+        return false;
     }
 
-    public void reset() {
-        lastTicks = ticksPassed;
+    public boolean isPassedEarly(){
+        if (!paused) {
+            return ((double) System.currentTimeMillis()) / 1000 * 20 - startTick >= delay - 1;
+        }
+
+        return false;
+    }
+
+    public void resetDelay(){
+
+        startTick = ((double) System.currentTimeMillis()) / 1000 * 20;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

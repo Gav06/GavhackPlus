@@ -1,6 +1,5 @@
 package me.gavin.gavhackplus.feature;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,12 +7,7 @@ import java.util.List;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import me.gavin.gavhackplus.client.Gavhack;
 import me.gavin.gavhackplus.feature.features.ToggleNotify;
-import me.gavin.gavhackplus.setting.RegisterSetting;
 import me.gavin.gavhackplus.setting.Setting;
-import me.gavin.gavhackplus.setting.impl.BooleanSetting;
-import me.gavin.gavhackplus.setting.impl.KeybindSetting;
-import me.gavin.gavhackplus.setting.impl.ModeSetting;
-import me.gavin.gavhackplus.setting.impl.NumberSetting;
 import me.gavin.gavhackplus.util.Util;
 import org.lwjgl.input.Keyboard;
 
