@@ -54,7 +54,7 @@ public class FeatureManager {
 		//add(new Scaffold());
 
 		// misc
-		//add(new AutoPorn());
+		add(new AutoPorn());
 		add(new HUD());
 		add(new ColorMod());
 		add(new ClickGUI());
