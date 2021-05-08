@@ -26,7 +26,6 @@ public class FeatureManager {
 		add(new AntiBot());
 		add(new KillAura());
 		add(new FastEXP());
-		add(new AutoCrystal());
 		add(new AutoTotem());
 		add(new BowSpam());
 
