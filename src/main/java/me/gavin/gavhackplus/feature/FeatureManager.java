@@ -64,8 +64,7 @@ public class FeatureManager {
 
 		// chat
 		add(new AutoSuicide());
-		add(new ChatSuffix());
-		add(new ChatTimestamps());
+		add(new ChatChanges());
 		add(new PopCounter());
 		add(new PotionAlert());
 		add(new ToggleNotify());
