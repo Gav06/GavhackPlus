@@ -1,3 +1,5 @@
+made public because old and gay
+
 # GavhackPlus
 Swag client made by gav06
 
